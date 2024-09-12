@@ -22,7 +22,7 @@ Huaman Puiquin Hector Emilio
 
 "Determinar si en su mayoría los alumnos de pregrado de la Universidad de Ingeniería y Tecnología consumen café"
 
-## Objetivos Secundarios:
+## Objetivos Específicos:
 
 **1-CONOCER** el impacto del café en el rendimiento académico de los estudiantes de la Universidad de -Tecnología e Ingeniería.
 
