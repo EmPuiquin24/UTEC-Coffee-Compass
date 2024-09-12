@@ -1,0 +1,49 @@
+---
+title: "PRIMERA_ENTREGA"
+format: html
+editor: visual
+---
+
+# GRUPO 3:
+
+### Integrantes :
+
+Alania Huillca Miguel Edison
+
+Tassara Acosta Rodrigo Andrés
+
+Olagibel Romero Fabricio Alberto
+
+Trinidad Leiva Isaac Eduardo
+
+Huaman Puiquin Hector Emilio
+
+## Objetivo General:
+
+"Determinar si en su mayoría los alumnos de pregrado de la Universidad de Ingeniería y Tecnología consumen café"
+
+## Objetivos Secundarios:
+
+**1-CONOCER** el impacto del café en el rendimiento académico de los estudiantes de la Universidad de -Tecnología e Ingeniería.
+
+**2-CONOCER** el impacto económico del consumo de café en el presupuesto de los estudiantes de la Universidad de Tecnología e Ingeniería.
+
+## Variables:
+
+-   Número de tazas de café que los estudiantes de UTEC consumen durante los días de exámenes.(**Cuantitativa discreta**)
+
+-   Número de horas extras que los estudiantes de UTEC dedican al estudio cuando consumen café.(**Cuantitativa continua**)
+
+-   Impacto en el rendimiento académico de los estudiantes de UTEC al consumir café.(**Cualitativa ordinal**)
+
+-   Café favorito de los estudiantes de UTEC en sus horas de estudio.(**Cualitativa nominal**)
+
+-   Cantidad máxima de dinero que los estudiantes de UTEC pagarían por una taza de café.(**Cuantitativa continua**)
+
+-   Gasto semanal de café de los estudiantes de UTEC .(**Cuantitativa discreta**)
+
+-   Escala de pensiones de los alumnos de UTEC.(**Cualitativa ordinal**)
+
+-   Establecimiento favorito de los estudiantes de UTEC para comprar café.(**Cualitativa nominal**)
+
+\-
