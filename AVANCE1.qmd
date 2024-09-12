@@ -20,13 +20,13 @@ editor: visual
 
 ## Objetivo General:
 
-"Determinar si en su mayoría los alumnos de pregrado de la Universidad de Ingeniería y Tecnología consumen café"
+**"Determinar si en su mayoría los alumnos de pregrado de la Universidad de Ingeniería y Tecnología consumen café"**
 
 ## Objetivos Específicos:
 
-1.  **CONOCER** el impacto del café en el rendimiento académico de los estudiantes de la Universidad de -Tecnología e Ingeniería.
+1.  **CONOCER** el impacto del café en el rendimiento académico de los estudiantes de pregrado de la Universidad de -Tecnología e Ingeniería.
 
-2.  **CONOCER** el impacto económico del consumo de café en el presupuesto de los estudiantes de la Universidad de Tecnología e Ingeniería.
+2.  **CONOCER** el impacto económico del consumo de café en el presupuesto de los estudiantes de pregrado de la Universidad de Tecnología e Ingeniería.
 
 ## Variables y sus tipos:
 
