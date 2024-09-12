@@ -8,15 +8,15 @@ editor: visual
 
 ### Integrantes :
 
-Alania Huillca Miguel Edison
+-   Alania Huillca Miguel Edison
 
-Tassara Acosta Rodrigo Andrés
+-   Tassara Acosta Rodrigo Andrés
 
-Olagibel Romero Fabricio Alberto
+-   Olagibel Romero Fabricio Alberto
 
-Trinidad Leiva Isaac Eduardo
+-   Trinidad Leiva Isaac Eduardo
 
-Huaman Puiquin Hector Emilio
+-   Huaman Puiquin Hector Emilio
 
 ## Objetivo General:
 
@@ -24,11 +24,11 @@ Huaman Puiquin Hector Emilio
 
 ## Objetivos Específicos:
 
-**1-CONOCER** el impacto del café en el rendimiento académico de los estudiantes de la Universidad de -Tecnología e Ingeniería.
+1.  **CONOCER** el impacto del café en el rendimiento académico de los estudiantes de la Universidad de -Tecnología e Ingeniería.
 
-**2-CONOCER** el impacto económico del consumo de café en el presupuesto de los estudiantes de la Universidad de Tecnología e Ingeniería.
+2.  **CONOCER** el impacto económico del consumo de café en el presupuesto de los estudiantes de la Universidad de Tecnología e Ingeniería.
 
-## Variables:
+## Variables y sus tipos:
 
 -   Número de tazas de café que los estudiantes de UTEC consumen durante los días de exámenes.(**Cuantitativa discreta**)
 
