@@ -24,13 +24,15 @@ editor: visual
 
 ## Objetivos Específicos:
 
-1.  **CONOCER** el impacto del café en el rendimiento académico de los estudiantes de pregrado de la Universidad de -Tecnología e Ingeniería.
+1.  **COMPARAR** el rendimiento académico entre los estudiantes de pregrado de la Universidad de -Tecnología e Ingeniería que consumen café y los que no consumen café.
 
-2.  **CONOCER** el impacto económico del consumo de café en el presupuesto de los estudiantes de pregrado de la Universidad de Tecnología e Ingeniería.
+2.  EXPLORAR la relación económica de los estudiantes de pregrado de la Universidad de Tecnología e Ingeniería con su comportamiento de consumo de café.
 
 ## Variables y sus tipos:
 
--   Número de tazas de café que los estudiantes de UTEC consumen durante los días de exámenes.(**Cuantitativa discreta**)
+## Primer objetivo
+
+-   Número de tazas de café que los estudiantes de UTEC consumen durante los días de exámenes.(**Cuantitativa discreta**) -\>
 
 -   Número de horas extras que los estudiantes de UTEC dedican al estudio cuando consumen café.(**Cuantitativa continua**)
 
@@ -38,12 +40,81 @@ editor: visual
 
 -   Café favorito de los estudiantes de UTEC en sus horas de estudio.(**Cualitativa nominal**)
 
+## Segundo objetivo
+
 -   Cantidad máxima de dinero que los estudiantes de UTEC pagarían por una taza de café.(**Cuantitativa continua**)
 
 -   Gasto semanal de café de los estudiantes de UTEC .(**Cuantitativa discreta**)
 
--   Escala de pensiones de los alumnos de UTEC.(**Cualitativa ordinal**)
+-   Tipo de beca de los estudiantes de pregrado de UTEC.(**Cualitativa ordinal**)
 
--   Establecimiento favorito de los estudiantes de UTEC para comprar café.(**Cualitativa nominal**)
+-   Establecimiento favorito de los estudiantes de UTEC para comprar café.(**Cualitativa nominal**
 
-\-
+# Análisis de la base de datos.
+
+Para poder ejecutar el código y hacer el análisis de la base de datos, usaremos el lenguaje de Programación Estadístico R y ciertas librerías para facilitar el proceso.
+
+Instalar las librerías:
+
+```{r}
+# install.packages("readr") # Para cargar el csv
+# install.packages("plyr")
+# install.packages("dplyr")
+# install.packages("tidyr")
+# install.packages("tidyverse") 
+# install.packages("ggplot2") # Para imprimir los gráficos
+```
+
+Y las importamos de la siguiente manera.
+
+```{r}
+library(readr)
+library(plyr)
+library(dplyr)
+library(tidyr)
+library(tidyverse)
+library(ggplot2)
+```
+
+### Miscelánea
+
+```{r}
+
+df <- read_csv("Café (respuestas).csv")
+df_filtered <- df %>% filter(str_starts(as.character(`Alumno encuestador`), "3"))
+
+df_filtered
+
+print("Cantidad de encuestas por integrante: ")
+custom_tags <- c("Hector", "Miguel", "Eduardo", "Rodrigo", "Fabricio")
+tag_values <- table(df_filtered$`Alumno encuestador`)
+
+for (i in seq_along(custom_tags)) {
+  cat(custom_tags[i], ":", tag_values[i], "\n")
+}
+total_value <- sum(tag_values)
+cat("Cantidad total de muestras :", total_value, "\n")
+cantidad_muestras_sin_na <- nrow(df_no_na)
+
+df_no_na <- na.omit(df_filtered)
+cat("Cantidad de muestras sin NAs :", cantidad_muestras_sin_na, "\n")
+
+print(df_no_na)
+```
+
+# Avance 3
+
+1.  Este avance parte la base de datos limpia. Es decir, la muestra efectiva.
+2.  Partimos en dos bloques de análisis:\
+    1. Análisis univariado\
+    2. Análisis bivariado
+3.  También puede estructurarse el informe en función de los objetivos\
+    1. Objetivo 1\
+    2. Objetivo 2\
+    3. Etc
+4.  Identificar las variables más relevantes del estudio.
+5.  El análisis coherente se refiere a que las conclusiones a partir de los gráficos y descriptores numéricos estén en el contexto del estudio.\
+    - ERROR: La mediana de los ingresos es 1500, la media/promedio de los ingresos es 1200, la desviación estándar es 200, etc\
+    - CORRECTO: Se observa en el gráfico 1 que la distribución de ingresos es asimétrica con la cola a la derecha, es decir, el 50% de los limeños tienen ingreso menor a 1500, etc, etc
+6.  Si un objetivo es: ESTUDIAR la relación entre los ingresos mensuales y el nivel educativo de Lima Provinvia en el 2020.\
+    - Generar los descriptores apropiados Boxplot indexado y proporción por nivel Educativo: etc, etc
