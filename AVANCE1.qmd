@@ -241,7 +241,19 @@ DF2
 ahora vamos a ver si necesitamos limpiar alguna variable\
 como vemos todas o han sido categórica ordinal o categórica nominal o numérica continua y de marcar\
 sin embargo podemos ver que hay variables como promedio donde hay datos raros como un promedio 84 por ejemplo\
-vamos a limpiar estos datos estableciendo que promedio no puede subir de 20
+vamos a limpiar estos datos estableciendo que promedio no puede subir de 20 remplazándolos con NAs
+
+```{r}
+# Función para reemplazar los valores mayores a 20 en Promedio_ponderado_2024_1 por NA
+reemplazar_promedio_na <- function(DF2) {
+  DF2$Promedio_ponderado_2024_1 <- ifelse(DF2$Promedio_ponderado_2024_1 > 20, NA, DF2$Promedio_ponderado_2024_1)
+  return(DF2)
+}
+
+# Uso de la función para modificar el dataset DF2
+DF2 <- reemplazar_promedio_na(DF2)
+DF2
+```
 
 # Avance 3
 
