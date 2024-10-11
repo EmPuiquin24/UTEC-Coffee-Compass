@@ -238,6 +238,11 @@ DF2 <- cambiar_nombres_DF2(DF2)
 DF2
 ```
 
+ahora vamos a ver si necesitamos limpiar alguna variable\
+como vemos todas o han sido categórica ordinal o categórica nominal o numérica continua y de marcar\
+sin embargo podemos ver que hay variables como promedio donde hay datos raros como un promedio 84 por ejemplo\
+vamos a limpiar estos datos estableciendo que promedio no puede subir de 20
+
 # Avance 3
 
 1.  Este avance parte la base de datos limpia. Es decir, la muestra efectiva.
