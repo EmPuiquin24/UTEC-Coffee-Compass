@@ -102,19 +102,155 @@ cat("Cantidad de muestras sin NAs :", cantidad_muestras_sin_na, "\n")
 print(df_no_na)
 ```
 
+# Avance 2
+
+En primer lugar, definimos las variables relevantes para nuestro caso\
+
+### Variables Generales:
+
+1.  **Sexo** (Sexo)
+
+2.  **Edad** (Edad)
+
+3.  **Ciclo** (Ciclo académico)
+
+### Objetivo 1: Comparar el rendimiento académico entre quienes consumen café y quienes no
+
+1.  **¿Consume café?**
+
+2.  **¿Cuántas tazas de café consumes en un día?**
+
+3.  **¿Cuántas tazas de café consumías antes de ser alumno de UTEC?**
+
+4.  **Durante un día de exámenes, ¿Cuántas tazas de café consumes?**
+
+5.  **¿Dedicas tiempo extra al estudio cuando consumes café? ¿Cuánto?**
+
+6.  **Si tuvieras que describir tu rendimiento académico cuando consumes café ¿Cómo sería?**
+
+7.  **¿Cuál fue tu promedio ponderado en el ciclo 2024-1?**
+
+### Objetivo 2: Explorar la relación económica del consumo de café
+
+1.  **¿Recibes algún apoyo económico para estudiar UTEC?**
+
+2.  **¿Cuál es el monto máximo que estás dispuesto a gastar en una buena taza de café?**
+
+3.  **¿Cuánto gastas en café a la semana?**
+
+4.  **¿En qué tipo de establecimiento compras café con mayor frecuencia?**
+
+5.  **¿Tu consumo de café cambió al ingresar a la universidad?**
+
+ahora que ya hemos definido las variables relevantes, creamos un dataset de solo estas
+
+```{r}
+crear_DF2 <- function(df_filtered) {
+  # Seleccionar las variables de interés
+  DF2 <- df_filtered[, c("Sexo",
+                         "Edad",
+                         "Ciclo:",
+                         "¿Consume café?",
+                         "En promedio ¿Cuántas tazas de café consumes en un día?",
+                         "Antes de ser alumno de UTEC, ¿cuántas tazas de café consumías al día aproximadamente?",
+                         "Durante un día de exámenes, ¿Cuántas tazas de café consumes?",
+                         "¿Dedicas tiempo extra al estudio cuando consumes café? ¿Cuánto?",
+                         "Si tuvieras que describir tu rendimiento académico cuando consumes café ¿Cómo sería?",
+                         "¿Cuál fue tu promedio ponderado en el ciclo 2024-1? (Tal cual aparece en tu intranet de estudiante).",
+                         "¿Recibes algún apoyo económico para estudiar UTEC?",
+                         "¿Cuál es el monto máximo que estás dispuesto a gastar en una buena taza de café? (en soles)",
+                         "¿Cuánto gastas en café a la semana?",
+                         "¿En qué tipo de establecimiento compras café con mayor frecuencia?",
+                         "¿Tu consumo de café cambió al ingresar a la universidad?")]
+  
+  return(DF2)
+}
+
+# Uso de la función para crear el nuevo dataset DF2
+DF2 <- crear_DF2(df_filtered)
+DF2
+```
+
+ahora lo que haremos sera cambiarle el nombre a las variables para que el dataset sea mas fácil de entender
+
+### Variables Generales:
+
+1.  **Sexo** (Sexo)
+
+2.  **Edad** (Edad)
+
+3.  **Ciclo** (Ciclo académico)
+
+### Objetivo 1: Comparar el rendimiento académico
+
+1.  **Consumo_cafe** (¿Consume café?)
+
+2.  **Tazas_por_dia** (En promedio, ¿Cuántas tazas de café consumes en un día?)
+
+3.  **Tazas_antes_UTEC** (¿Cuántas tazas de café consumías antes de ser alumno de UTEC?)
+
+4.  **Tazas_examenes** (Durante un día de exámenes, ¿Cuántas tazas de café consumes?)
+
+5.  **Tiempo_extra_estudio** (¿Dedicas tiempo extra al estudio cuando consumes café?)
+
+6.  **Rendimiento_con_cafe** (¿Cómo describirías tu rendimiento académico cuando consumes café?)
+
+7.  **Promedio_ponderado_2024_1** (Promedio ponderado en el ciclo 2024-1)
+
+### Objetivo 2: Relación económica del consumo de café
+
+1.  **Apoyo_economico** (¿Recibes algún apoyo económico para estudiar en UTEC?)
+
+2.  **Monto_maximo_cafe** (Monto máximo dispuesto a gastar en una buena taza de café)
+
+3.  **Gasto_semanal_cafe** (Gasto en café a la semana)
+
+4.  **Lugar_compra_cafe** (Tipo de establecimiento donde compras café con mayor frecuencia)
+
+5.  **Cambio_consumo_UTEC** (¿Tu consumo de café cambió al ingresar a la universidad?)
+
+creamos otra función para ejecutar estos cambios:
+
+```{r}
+cambiar_nombres_DF2 <- function(DF2) {
+  # Cambiar los nombres de las columnas
+  colnames(DF2) <- c("Sexo", 
+                     "Edad", 
+                     "Ciclo", 
+                     "Consumo_cafe", 
+                     "Tazas_por_dia", 
+                     "Tazas_antes_UTEC", 
+                     "Tazas_examenes", 
+                     "Tiempo_extra_estudio", 
+                     "Rendimiento_con_cafe", 
+                     "Promedio_ponderado_2024_1", 
+                     "Apoyo_economico", 
+                     "Monto_maximo_cafe", 
+                     "Gasto_semanal_cafe", 
+                     "Lugar_compra_cafe", 
+                     "Cambio_consumo_UTEC")
+  
+  return(DF2)
+}
+
+# Uso de la función para cambiar los nombres en el dataset DF2
+DF2 <- cambiar_nombres_DF2(DF2)
+DF2
+```
+
 # Avance 3
 
 1.  Este avance parte la base de datos limpia. Es decir, la muestra efectiva.
 2.  Partimos en dos bloques de análisis:\
-    1. Análisis univariado\
-    2. Análisis bivariado
+    1.  Análisis univariado\
+    2.  Análisis bivariado
 3.  También puede estructurarse el informe en función de los objetivos\
-    1. Objetivo 1\
-    2. Objetivo 2\
-    3. Etc
+    1.  Objetivo 1\
+    2.  Objetivo 2\
+    3.  Etc
 4.  Identificar las variables más relevantes del estudio.
 5.  El análisis coherente se refiere a que las conclusiones a partir de los gráficos y descriptores numéricos estén en el contexto del estudio.\
-    - ERROR: La mediana de los ingresos es 1500, la media/promedio de los ingresos es 1200, la desviación estándar es 200, etc\
-    - CORRECTO: Se observa en el gráfico 1 que la distribución de ingresos es asimétrica con la cola a la derecha, es decir, el 50% de los limeños tienen ingreso menor a 1500, etc, etc
+    -   ERROR: La mediana de los ingresos es 1500, la media/promedio de los ingresos es 1200, la desviación estándar es 200, etc\
+    -   CORRECTO: Se observa en el gráfico 1 que la distribución de ingresos es asimétrica con la cola a la derecha, es decir, el 50% de los limeños tienen ingreso menor a 1500, etc, etc
 6.  Si un objetivo es: ESTUDIAR la relación entre los ingresos mensuales y el nivel educativo de Lima Provinvia en el 2020.\
-    - Generar los descriptores apropiados Boxplot indexado y proporción por nivel Educativo: etc, etc
+    -   Generar los descriptores apropiados Boxplot indexado y proporción por nivel Educativo: etc, etc
