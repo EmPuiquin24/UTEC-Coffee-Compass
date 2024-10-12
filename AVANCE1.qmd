@@ -145,25 +145,29 @@ En primer lugar, definimos las variables relevantes para nuestro caso\
 ahora que ya hemos definido las variables relevantes, creamos un dataset de solo estas
 
 ```{r}
-  DF2 <- df[, c("Sexo",
-                         "Edad",
-                         "Ciclo:",
-                         "¿Consume café?",
-                         "En promedio ¿Cuántas tazas de café consumes en un día?",
-                         "Antes de ser alumno de UTEC, ¿cuántas tazas de café consumías al día aproximadamente?",
-                         "Durante un día de exámenes, ¿Cuántas tazas de café consumes?",
-                         "¿Dedicas tiempo extra al estudio cuando consumes café? ¿Cuánto?",
-                         "Si tuvieras que describir tu rendimiento académico cuando consumes café ¿Cómo sería?",
-                         "¿Cuál fue tu promedio ponderado en el ciclo 2024-1? (Tal cual aparece en tu intranet de estudiante).",
-                         "¿Recibes algún apoyo económico para estudiar UTEC?",
-                         "¿Cuál es el monto máximo que estás dispuesto a gastar en una buena taza de café? (en soles)",
-                         "¿Cuánto gastas en café a la semana?",
-                         "¿En qué tipo de establecimiento compras café con mayor frecuencia?",
-                         "¿Tu consumo de café cambió al ingresar a la universidad?")]
-  
+cambiar_nombres_DF2 <- function(DF2) {
+  colnames(DF2) <- c("Sexo", 
+                     "Edad", 
+                     "Ciclo", 
+                     "Consumo_cafe", 
+                     "Tazas_por_dia", 
+                     "Tazas_antes_UTEC", 
+                     "Tazas_examenes", 
+                     "Tiempo_extra_estudio", 
+                     "Rendimiento_con_cafe", 
+                     "Promedio_ponderado_2024_1", 
+                     "Apoyo_economico", 
+                     "Monto_maximo_cafe", 
+                     "Gasto_semanal_cafe", 
+                     "Lugar_compra_cafe", 
+                     "Cambio_consumo_UTEC")
+  return(DF2)
+}
 
+DF2 <- cambiar_nombres_DF2(DF2)
 
 DF2
+
 ```
 
 ahora lo que haremos sera cambiarle el nombre a las variables para que el dataset sea mas fácil de entender
@@ -264,15 +268,14 @@ max(DF2$Edad)
 ```
 
 como vemos si presenta valores atípicos\
-para esto limitamos el rango de edades a menos de 199 para ver si ese era el único valor raro, usando como criterio máximo 50
+para esto limitamos el rango de edades a menos de 2006 para ver si ese era el único valor raro, usando como criterio máximo 50 y mínimo 15
 
 ```{r}
-DF2$Edad <- ifelse(DF2$Edad > 50, NA, DF2$Edad)
-
+DF2$Edad <- ifelse(DF2$Edad > 50 | DF2$Edad < 15, NA, DF2$Edad)
 quantile(DF2$Edad, na.rm = TRUE)
 ```
 
-Como vemos nos bota 39 que si tiene algo de sentido como edad máxima
+Como vemos nos bota 44 que si tiene algo de sentido como edad máxima
 
 seguimos con la variable tazas por día y usamos quantile para ver si hay datos anormales\
 primero convertimos la variable a numérica y luego usamos quantile.
@@ -322,7 +325,7 @@ DF2$Monto_maximo_cafe <- ifelse(DF2$Monto_maximo_cafe > 50, NA, DF2$Monto_maximo
 quantile(DF2$Monto_maximo_cafe, na.rm = TRUE)
 ```
 
-nos da 40 que si bien es extremo es creíble
+nos da 50 que si bien es extremo es creíble
 
 ahora es el turno de la variable Gasto_semanal_cafe\
 aplicamos criterio y usamos como filtro 200 soles máximo
@@ -332,7 +335,7 @@ DF2$Gasto_semanal_cafe <- ifelse(DF2$Gasto_semanal_cafe > 200, NA, DF2$Gasto_sem
 quantile(DF2$Gasto_semanal_cafe, na.rm = TRUE)
 ```
 
-Nos da 100 soles que si bien es bastante es creíble
+Nos da 200 soles que si bien es bastante es creíble
 
 por ultimo vemos el dataframe ya limpio y prolijo
 
@@ -348,7 +351,7 @@ data.frame(
 Tamaño_efectivo = sapply(DF2, function(columna) sum(!is.na(columna))),
 NAs_totales = sapply(DF2, function(columna) sum(is.na(columna))),
 Porcentaje_NA = round(sapply(DF2, function(columna) sum(is.na(columna)))
-/270*100, 2))
+/2007*100, 2))
 ```
 
 # Avance 3
@@ -363,9 +366,9 @@ Porcentaje_NA = round(sapply(DF2, function(columna) sum(is.na(columna)))
 
 3.  También puede estructurarse el informe en función de los objetivos\
 
-    **Objetivo 1**: Explorar la relación entre el consumo de café y el rendimiento académico en los estudiantes de pregrado de la Universidad de Ingeniería y Tecnología\
+    **Objetivo 1**: **Explorar** la **relación** entre el consumo de café y el rendimiento académico en los estudiantes de pregrado de la Universidad de Ingeniería y Tecnología\
 
-    **Objetivo 2**: Explorar la relación económica de los estudiantes de pre-grado de la Universidad de Tecnología e Ingeniería con su comportamiento de consumo de café.\
+    **Objetivo 2**: **Explorar** la **relación** económica de los estudiantes de pre-grado de la Universidad de Tecnología e Ingeniería con su comportamiento de consumo de café.\
 
 4.  Identificar las variables más relevantes del estudio.
 
@@ -419,7 +422,7 @@ quantile(DF2$Tazas_por_dia, na.rm = TRUE)
 table(DF2$Tazas_por_dia)
 sum(!is.na(DF2$Tazas_por_dia))
 sum(is.na(DF2$Tazas_por_dia))
-3/176*100
+9/1387*100
 round(mean(DF2$Tazas_por_dia, na.rm = TRUE), 2)
 round(sd(DF2$Tazas_por_dia, na.rm = TRUE)/mean(DF2$Tazas_por_dia, na.rm = TRUE)*100, 2)
 
@@ -427,12 +430,14 @@ round(sd(DF2$Tazas_por_dia, na.rm = TRUE)/mean(DF2$Tazas_por_dia, na.rm = TRUE)*
 
 **Análisis:**
 
-Se observa en el gráfico 1, que la frecuencia de las tazas es bastante asimétrica, siendo asimétrica hacia la derecha. En otras palabras, más del 50% de la muestra tiene un consumo de café menor o igual a la mediana, la cual es de 2 tazas por día, estando la variable muy poco dispersa. El promedio es algo mas alto que la mediana, siendo 2.16 tazas por alumno, debido a la presencia de personas que dijeron consumir 9 o mas tazas diarias (1.7%). A pesar de esto, el promedio no es significativamente mas grande que la mediana. Sin embargo, el CV es bastante grande (76.83%), por lo que el mejor descriptor para resumir el consumo de café sigue siendo la mediana. La moda se aleja significativamente de los otros dos descriptores, siendo de 1. En conclusión, podemos afirmar que la gran mayoría de alumnos que consumen café en UTEC suelen no consumir mas de 2 tazas, con lo mas común siendo que consuman solo 1, por lo que suele ser un consumo de café generalmente bajo y casual.
+Se observa en el gráfico 1, que la frecuencia de las tazas es bastante asimétrica, siendo asimétrica hacia la derecha. En otras palabras, más del 50% de la muestra tiene un consumo de café menor o igual a la mediana, la cual es de 2 tazas por día, estando la variable muy poco dispersa. El promedio es algo mas alto que la mediana, siendo 2.19 tazas por alumno, debido a la presencia de personas que dijeron consumir 9 o mas tazas diarias (0.64%). A pesar de esto, el promedio no es significativamente mas grande que la mediana. Sin embargo, el CV es bastante grande (66.16%), por lo que el mejor descriptor para resumir el consumo de café sigue siendo la mediana. La moda se aleja significativamente de los otros dos descriptores, siendo de 1. En conclusión, podemos afirmar que la gran mayoría de alumnos que consumen café en UTEC suelen no consumir mas de 2 tazas, con lo mas común siendo que consuman solo 1, por lo que suele ser un consumo de café generalmente bajo y casual.
 
 # Análisis Rendimiento_con_café
 
 ```{r}
-grafico_rendimiento_cafe <- ggplot(DF2, aes(x = Rendimiento_con_cafe)) +
+DF2_sin_NA <- DF2 %>% filter(!is.na(Rendimiento_con_cafe))
+
+grafico_rendimiento_cafe <- ggplot(DF2_sin_NA, aes(x = Rendimiento_con_cafe)) +
   geom_bar(fill = "steelblue", color = "white", alpha = 0.7) +
   labs(title = "Rendimiento Académico de Alumnos de UTEC con Café",
        x = "Calidad de rendimiento con Café",
@@ -450,15 +455,15 @@ grafico_rendimiento_cafe <- ggplot(DF2, aes(x = Rendimiento_con_cafe)) +
 
 print(grafico_rendimiento_cafe)
 
-round(97/178*100, 2)
-round(54/178*100, 2)
-round(20/178*100, 2)
-round(7/178*100, 2)
+round(780/1400*100, 2)
+round(202/1400*100, 2)
+round(102/1400*100, 2)
+round(316/1400*100, 2)
 ```
 
 **Análisis:**
 
-En el gráfico que representa el **rendimiento académico** de los alumnos de UTEC que consumen café, se observa una distribución clara y diferenciada de las categorías, ordenadas de mejor a menor rendimiento: "**excelente" (20), "bueno" (97), "regular" (54) y "puede mejorar" (7)**. Esta distribución muestra que la mayoría de los estudiantes perciben un rendimiento "**bueno"** al consumir café, siendo el **54.49%** del total. "**Regular"** ocupa el segundo lugar, siendo el **30.34%** del total, seguido por "**Excelente**" (**11.24%**) y **"Puede mejorar"** (**3.94%**). Tanto la **moda** como la **mediana** la pertenecen a "**bueno**", por lo que se puede decir en relación a la anterior esta variable es mucho mas simétrica y concentrada en la **mediana**. En base a esta información, podemos concluir que el consumo de café se asocia predominantemente con un rendimiento académico bueno entre los estudiantes de UTEC, con una significativa cantidad que considera su rendimiento como excelente gracias al consumo de esta bebida.
+En el gráfico que representa el **rendimiento académico** de los alumnos de UTEC que consumen café, se observa una distribución clara y diferenciada de las categorías, ordenadas de mejor a menor rendimiento: "**excelente" (202), "bueno" (780), "regular" (316) y "puede mejorar" (102)**. Esta distribución muestra que la mayoría de los estudiantes perciben un rendimiento "**bueno"** al consumir café, siendo el **55.71%** del total. "**Regular"** ocupa el segundo lugar, siendo el **22.57%** del total, seguido por "**Excelente**" (**14.43%**) y **"Puede mejorar"** (**7.29%**). Tanto la **moda** como la **mediana** la pertenecen a "**bueno**", por lo que se puede decir que esta variable es concentrada en la **mediana**. En base a esta información, podemos concluir que el consumo de café se asocia predominantemente con un rendimiento académico bueno entre los estudiantes de UTEC, con una significativa cantidad que considera su rendimiento como excelente gracias al consumo de esta bebida.
 
 # Análisis de correlación de las dos variables
 
@@ -487,9 +492,9 @@ grafico_rendimiento_cafe <- DF2 %>%
 
 print(grafico_rendimiento_cafe)
 
-round(71/122*100, 2)
-round(7/122*100, 2)
-round(41/122*100, 2)
+round(531/932*100, 2)
+round(104/932*100, 2)
+round(224/932*100, 2)
 ```
 
 **GRAFICO 2: GRUPO 3 y mas Tazas al Día\
@@ -519,14 +524,14 @@ grafico_rendimiento_cafe <- DF2 %>%
 print(grafico_rendimiento_cafe)
 
 
-round(24/47*100, 2)
-round(10/47*100, 2)
-round(9/47*100, 2)
+round(235/442*100, 2)
+round(90/442*100, 2)
+round(75/442*100, 2)
 ```
 
 **Análisis:**
 
-Como podemos ver, el gráfico 1 (grupo de entre 1 y 2 tazas) y el gráfico 2 (grupo de entre 3 o mas tazas) son significativamente diferentes. Si bien la **moda** en ambos es rendimiento tipo "bueno" (58.2% en gráfico 1, 51.06% en el gráfico 2), el porcentaje de alumnos con rendimiento "excelente" es muchísimo mas alto en el gráfico 2, siendo el 21.28%, mientras que el porcentaje de alumnos con rendimiento "excelente" en el gráfico 1 es apenas del 5.74%. En otras palabras, los alumnos que toman 3 o mas tazas de café al día tienen en proporción al tamaño de su grupo unas 4 veces más personas con rendimiento excelente comparado a los alumnos que solo toman de 1 a 2 tazas de café al día. En cuanto al porcentaje de alumnos con rendimiento "regular", este es significativamente mas bajo en el gráfico 2, siendo solo el 19.15%, mientras que en el gráfico 1 es del 33.61%. En base a esto, podemos concluir que la hipótesis fue cierta, ya que hay una cierta correlación directamente proporcional entre mientras mas café tome un alumno y su rendimiento académico.
+Como podemos ver, el gráfico 1 (grupo de entre 1 y 2 tazas) y el gráfico 2 (grupo de entre 3 o mas tazas) son significativamente diferentes. Si bien la **moda** en ambos es rendimiento tipo "bueno" (56.97% en gráfico 1, 51.06% en el gráfico 2), el porcentaje de alumnos con rendimiento "excelente" es muchísimo mas alto en el gráfico 2, siendo el 20.36%, mientras que el porcentaje de alumnos con rendimiento "excelente" en el gráfico 1 es apenas del 11.16%. En otras palabras, los alumnos que toman 3 o mas tazas de café al día tienen en proporción al tamaño de su grupo unas 2 veces más personas con rendimiento excelente comparado a los alumnos que solo toman de 1 a 2 tazas de café al día. En cuanto al porcentaje de alumnos con rendimiento "regular", este es significativamente mas bajo en el gráfico 2, siendo solo el 16.97%, mientras que en el gráfico 1 es del 24.03%. En base a esto, podemos concluir que la hipótesis fue cierta, ya que hay una cierta correlación directamente proporcional entre mientras mas café tome un alumno y su rendimiento académico.
 
 # OBJETIVO 2:
 
@@ -537,7 +542,6 @@ moda <- as.numeric(names(sort(table(DF2$Gasto_semanal_cafe), decreasing = TRUE)[
 promedio <- mean(DF2$Gasto_semanal_cafe, na.rm = TRUE)
 mediana <- median(DF2$Gasto_semanal_cafe, na.rm = TRUE)
 
-# Crear el gráfico para Gasto_semanal_cafe con breaks de 20 unidades
 grafico_cafe <- ggplot(DF2, aes(x = Gasto_semanal_cafe)) +
   geom_histogram(binwidth = 20, fill = "steelblue", color = "white", alpha = 0.7) +  # Binwidth ajustado a 20
   labs(title = "Gasto semanal en café de alumnos UTEC",
@@ -550,7 +554,7 @@ grafico_cafe <- ggplot(DF2, aes(x = Gasto_semanal_cafe)) +
     axis.title.y = element_text(size = 14),
     axis.text = element_text(size = 12)
   ) +
-  scale_x_continuous(breaks = seq(0, max(DF2$Gasto_semanal_cafe, na.rm = TRUE), by = 10)) +  # Breaks cada 20 unidades
+  scale_x_continuous(breaks = seq(0, max(DF2$Gasto_semanal_cafe, na.rm = TRUE), by = 10)) +  
   scale_y_continuous(expand = c(0, 0)) +
   geom_vline(aes(xintercept = moda), color = "red", linetype = "dashed", size = 1) +   
   geom_vline(aes(xintercept = promedio), color = "green", linetype = "dashed", size = 1) +  
@@ -577,9 +581,9 @@ print(paste("El porcentaje de alumnos que gastan más de 40 soles es:", 15/ nrow
 
 Análisis:
 
-Se observa en el gráfico que la distribución del gasto semanal en café de los estudiantes de UTEC es **claramente asimétrica hacia la derecha**. Más del 50% de la muestra gasta menos o igual a la **mediana**, que es de **10 soles** por semana, lo que indica un consumo moderado entre la mayoría de los estudiantes. El **promedio** de gasto es un poco más alto, con **15.24 soles**, debido a la presencia de algunos estudiantes que reportan gastar montos significativamente mayores, como aquellos que gastan **40 soles** o más (6.38% de las unidades muestrales en total). A pesar de esta diferencia, el promedio no se aleja drásticamente de la mediana. Sin embargo, el **coeficiente de variación (102%)** indica una alta dispersión en los datos, sugiriendo que el gasto varía considerablemente entre los estudiantes.
+Se observa en el gráfico que la distribución del gasto semanal en café de los estudiantes de UTEC es claramente asimétrica hacia la derecha. Más del 50% de la muestra gasta menos o igual a la mediana, que es de 14 soles por semana, lo que indica un consumo moderado entre la mayoría de los estudiantes. El promedio de gasto es un poco más alto, con 19.39 soles, debido a la presencia de algunos estudiantes que reportan gastar montos significativamente mayores, como aquellos que gastan 40 soles o más (1.08% de las unidades muestrales en total). A pesar de esta diferencia, el promedio no se aleja drásticamente de la mediana. Sin embargo, el coeficiente de variación (116%) indica una alta dispersión en los datos, sugiriendo que el gasto varía considerablemente entre los estudiantes.
 
-La **moda**, que es de **20 soles**, se encuentra alejada de los otros dos descriptores. En conclusión, la mayoría de los estudiantes tiende a gastar menos de 20 soles en café por semana, con un patrón de gasto generalmente bajo, aunque existen algunos casos extremos que elevan el promedio.
+La moda, que es de 10 soles, se encuentra alejada de los otros dos descriptores. En conclusión, la mayoría de los estudiantes tiende a gastar menos de 10 soles en café por semana, con un patrón de gasto generalmente bajo, aunque existen algunos casos extremos que elevan el promedio.
 
 # Análisis Apoyo_económico
 
@@ -609,9 +613,9 @@ print(paste("El porcentaje de estudiantes que tienen una semi-beca es:", 15/235 
 print(paste("Coeficiente de simetría:", 15/235 * 100))
 ```
 
-En este gráfico que representa el \*\*tipo de ayuda económica\*\* de los alumnos de UTEC, se observa una clara diferenciación en las categorías de ayuda económica, ordenadas mayor a menor frecuencia: **"Ninguno" (159),** "**Beca" (61), "Semi-beca" (15)**. Esta distribución muestra que la mayoría de los estudiantes no reciben ningún apoyo económico de parte de la universidad, siendo el **67.66%** del total. "**Beca"** ocupa el segundo lugar, siendo el **25.96%** del total, seguido finalmente por "**Semi-beca**" (**6.29%)**. Tanto la **moda** como la **mediana** la pertenecen a "Ninguno", por lo que se puede decir en relación a la anterior esta variable es mucho mas simétrica y concentrada en la **mediana**.
+En este gráfico que representa el *tipo de ayuda económica* de los alumnos de UTEC, se observa una clara diferenciación en las categorías de ayuda económica, ordenadas mayor a menor frecuencia: "Ninguno" (1324), "Beca" (444), "Semi-beca" (248). Esta distribución muestra que la mayoría de los estudiantes no reciben ningún apoyo económico de parte de la universidad, siendo el 65.22% del total. "Beca" ocupa el segundo lugar, siendo el 21.84% del total, seguido finalmente por "Semi-beca" (12.93%). Tanto la moda como la mediana la pertenecen a "Ninguno", por lo que se puede decir en relación a la anterior esta variable es mucho mas simétrica y concentrada en la mediana.
 
-En conclusión, la **moda** indica que la mayoría de los estudiantes entrevistados que consumen café no poseen alguna beca académica de la UTEC en la actualidad , sugiriendo talvez, que este gasto extra en las matrículas y pensiones de los semestres académicos afecten de manera positiva o negativa en el gasto semanal en café de los estudiantes. De manera análoga, ocurriría algo similar con los otros dos datos (Beca y Semi-beca).
+En conclusión, la moda indica que la mayoría de los estudiantes entrevistados que consumen café no poseen alguna beca académica de la UTEC en la actualidad , sugiriendo talvez, que este gasto extra en las matrículas y pensiones de los semestres académicos afecten de manera positiva o negativa en el gasto semanal en café de los estudiantes. De manera análoga, ocurriría algo similar con los otros dos datos (Beca y Semi-beca).
 
 # Análisis de correlación de las dos variables
 
@@ -619,11 +623,12 @@ Ahora veamos si existe alguna correlación entre estas dos variables justamente 
 
 El finalidad de este objetivo es "Explorar la relación económica de los estudiantes de pre-grado de la Universidad de Tecnología e Ingeniería con su comportamiento con el café".
 
-Para un mejor análisis, haremos dos gráficas: Una con solamente los alumnos no becados y otra con los alumnos que poseen alguna beca.
+Para un mejor análisis, haremos dos gráficas: Una con solamente los alumnos no becados y otra con los alumnos que poseen alguna beca. La lógica nos diría que los no becados tendrían un mayor poder de consumo, por lo que gastarían mas en café, demostrando que el gasto y acceso que tienen los estudiantes de la ejecute al café también depende de su nivel socio económico.
 
 ```{r}
+
 datos_filtrados <- DF2 %>%
-  filter(Apoyo_economico == "Ninguno")
+  filter(Apoyo_economico == "Ninguno" & !is.na(Gasto_semanal_cafe))
 
 datos_filtrados <- datos_filtrados %>%
   mutate(rango_gasto = cut(Gasto_semanal_cafe, breaks = seq(0, max(Gasto_semanal_cafe, na.rm = TRUE), by = 10), right = FALSE))
@@ -634,6 +639,51 @@ frecuencias <- datos_filtrados %>%
 
 ggplot(frecuencias, aes(x = rango_gasto, y = frecuencia)) +
   geom_bar(stat = "identity") +
-  labs(x = "Gasto Semanal en Café", y = "Frecuencia", title = "Frecuencia de Gasto Semanal en Café por Ayuda Económica (ninguno)") +
+  labs(x = "Gasto Semanal en Café en soles", y = "Frecuencia", title = "Gasto Semanal en Café por Ayuda Económica (ninguno)") +
+  theme_minimal()
+
+```
+
+```{r}
+
+datos_filtrados <- DF2 %>%
+  filter(Apoyo_economico == "Beca" & !is.na(Gasto_semanal_cafe))
+
+datos_filtrados <- datos_filtrados %>%
+  mutate(rango_gasto = cut(Gasto_semanal_cafe, breaks = seq(0, max(Gasto_semanal_cafe, na.rm = TRUE), by = 10), right = FALSE))
+
+frecuencias <- datos_filtrados %>%
+  group_by(rango_gasto) %>%
+  summarise(frecuencia = n())
+
+ggplot(frecuencias, aes(x = rango_gasto, y = frecuencia)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Gasto Semanal en Café en soles", y = "Frecuencia", title = "Gasto Semanal en Café por Ayuda Económica (beca)") +
   theme_minimal()
 ```
+
+Análisis:
+
+1.  **Primer gráfico (no becados)**:
+
+    -   El gasto en café se concentra principalmente en los rangos más bajos: entre 0 y 10 soles, seguido del rango de 10 a 20 soles. Estos dos primeros rangos acumulan una gran parte de la distribución (más de 200 personas).
+
+    -   A medida que los rangos de gasto aumentan (20 a 30 soles, 30 a 40 soles, etc.), la frecuencia disminuye significativamente, lo que sugiere que pocas personas no becadas gastan más de 30 soles en café semanalmente.
+
+    -   Sin embargo, todavía existe una cierta cantidad de personas que gasta entre 40 y 60 soles, y unos pocos incluso superan los 60 soles, lo cual refleja un rango de gasto más amplio.
+
+2.  **Segundo gráfico (becados)**:
+
+    -   En este grupo, también la mayoría de los estudiantes gastan entre 0 y 10 soles en café semanalmente, pero en una proporción relativamente menor en comparación con los no becados (alrededor de 150 personas en lugar de más de 200).
+
+    -   El gasto en los rangos de 10 a 20 soles sigue siendo significativo, pero el número de estudiantes que gasta más de 20 soles disminuye más rápidamente que en el grupo no becado.
+
+    -   A partir de 30 soles, el gasto es considerablemente bajo, con muy pocas personas superando los 30 soles, y casi inexistente en los rangos superiores (de 50 a 60 soles o más).
+
+### Conclusión basada en la hipótesis:
+
+La hipótesis sugiere que los estudiantes no becados deberían tener un mayor poder adquisitivo y, por ende, gastarían más en café. Esto parece confirmarse en los gráficos:
+
+-   **Los estudiantes no becados** muestran una mayor distribución de gasto en café, con más estudiantes gastando entre 20 y 60 soles (y algunos hasta más de 100 soles). Esto podría reflejar que tienen más disponibilidad económica para gastar en estos productos no esenciales.
+
+-   **Los estudiantes becados** tienden a gastar mucho menos, concentrándose mayoritariamente en los rangos bajos (de 0 a 20 soles), lo cual es consistente con la idea de que su poder adquisitivo es más limitado y priorizan otros gastos más esenciales.
