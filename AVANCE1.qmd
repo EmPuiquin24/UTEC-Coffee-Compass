@@ -409,9 +409,9 @@ grafico_cafe <- ggplot(DF2, aes(x = Tazas_por_dia)) +
   ) +
   scale_x_continuous(breaks = seq(0, max(DF2$Tazas_por_dia, na.rm = TRUE), by = 1)) +
   scale_y_continuous(expand = c(0, 0)) +
-  geom_vline(aes(xintercept = moda), color = "red", linetype = "dashed", size = 1) +   
-  geom_vline(aes(xintercept = promedio), color = "green", linetype = "dashed", size = 1) +  
-  geom_vline(aes(xintercept = mediana), color = "blue", linetype = "dashed", size = 1) +   
+  geom_vline(aes(xintercept = moda), color = "red", linetype = "dashed", linewidth = 1) +   
+  geom_vline(aes(xintercept = promedio), color = "green", linetype = "dashed", linewidth = 1) +  
+  geom_vline(aes(xintercept = mediana), color = "blue", linetype = "dashed", linewidth = 1) +   
   geom_text(aes(x = moda, y = max(table(DF2$Tazas_por_dia)) + 1, label = "Moda"), color = "red", vjust = +7.5, size = 5) +
   geom_text(aes(x = promedio, y = max(table(DF2$Tazas_por_dia)) + 2, label = "Promedio"), color = "green", vjust = +13.5, size = 5) +
   geom_text(aes(x = mediana, y = max(table(DF2$Tazas_por_dia)) + 3, label = "Mediana"), color = "blue", vjust = +10.5, size = 5)
@@ -530,3 +530,46 @@ round(9/47*100, 2)
 **Análisis:**
 
 Como podemos ver, el gráfico 1 (grupo de entre 1 y 2 tazas) y el gráfico 2 (grupo de entre 3 o mas tazas) son significativamente diferentes. Si bien la **moda** en ambos es rendimiento tipo "bueno" (58.2% en gráfico 1, 51.06% en el gráfico 2), el porcentaje de alumnos con rendimiento "excelente" es muchísimo mas alto en el gráfico 2, siendo el 21.28%, mientras que el porcentaje de alumnos con rendimiento "excelente" en el gráfico 1 es apenas del 5.74%. En otras palabras, los alumnos que toman 3 o mas tazas de café al día tienen en proporción al tamaño de su grupo unas 4 veces mas personas con rendimiento excelente comparado a los alumnos que solo toman de 1 a 2 tazas de café al día. En cuanto al porcentaje de alumnos con rendimiento "regular", este es significativamente mas bajo en el gráfico 2, siendo solo el 19.15%, mientras que en el gráfico 1 es del 33.61%. En base a esto, podemos concluir que la hipótesis fue cierta, ya que hay una cierta correlación directamente proporcional entre mientras mas café tome un alumno y su rendimiento académico.
+
+# OBJETIVO 2:
+
+# Análisis Gasto_semanal_café
+
+```{r}
+moda <- as.numeric(names(sort(table(DF2$Gasto_semanal_cafe), decreasing = TRUE)[1]))
+promedio <- mean(DF2$Gasto_semanal_cafe, na.rm = TRUE)
+mediana <- median(DF2$Gasto_semanal_cafe, na.rm = TRUE)
+
+# Crear el gráfico para Gasto_semanal_cafe con breaks de 20 unidades
+grafico_cafe <- ggplot(DF2, aes(x = Gasto_semanal_cafe)) +
+  geom_histogram(binwidth = 20, fill = "steelblue", color = "white", alpha = 0.7) +  # Binwidth ajustado a 20
+  labs(title = "Gasto semanal en café de alumnos UTEC",
+       x = "Gasto semanal en soles",
+       y = "Frecuencia dentro de la muestra") +
+  theme_minimal(base_size = 15) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),
+    axis.title.x = element_text(size = 14),
+    axis.title.y = element_text(size = 14),
+    axis.text = element_text(size = 12)
+  ) +
+  scale_x_continuous(breaks = seq(0, max(DF2$Gasto_semanal_cafe, na.rm = TRUE), by = 20)) +  # Breaks cada 20 unidades
+  scale_y_continuous(expand = c(0, 0)) +
+  geom_vline(aes(xintercept = moda), color = "red", linetype = "dashed", size = 1) +   
+  geom_vline(aes(xintercept = promedio), color = "green", linetype = "dashed", size = 1) +  
+  geom_vline(aes(xintercept = mediana), color = "blue", linetype = "dashed", size = 1) +   
+  geom_text(aes(x = moda, y = max(table(DF2$Gasto_semanal_cafe)) + 1, label = "Moda"), color = "red", vjust = -2.5, size = 5) +
+  geom_text(aes(x = promedio, y = max(table(DF2$Gasto_semanal_cafe)) + 2, label = "Promedio"), color = "green", vjust = -4.5, size = 5) +
+  geom_text(aes(x = mediana, y = max(table(DF2$Gasto_semanal_cafe)) + 3, label = "Mediana"), color = "blue", vjust = +0.5, size = 5)
+
+# Mostrar el gráfico
+print(grafico_cafe)
+
+print(promedio)
+print(mediana)
+print(moda)
+
+round(sd(DF2$Gasto_semanal_cafe, na.rm = TRUE)/mean(DF2$Gasto_semanal_cafe, na.rm = TRUE)*100)
+```
+
+Análisis:
