@@ -343,6 +343,17 @@ por ultimo vemos el dataframe ya limpio y prolijo
 DF2
 ```
 
+calculamos el tamaño efectivo de cada variable y su cantidad de NAs y su porcentaje de NAs
+
+```{r}
+
+data.frame(
+Tamaño_efectivo = sapply(DF2, function(columna) sum(!is.na(columna))),
+NAs_totales = sapply(DF2, function(columna) sum(is.na(columna))),
+Porcentaje_NA = round(sapply(DF2, function(columna) sum(is.na(columna)))
+/270*100, 2))
+```
+
 # Avance 3
 
 1.  Este avance parte la base de datos limpia. Es decir, la muestra efectiva.
