@@ -79,8 +79,9 @@ library(ggplot2)
 ### Miscelánea
 
 ```{r}
-df <- read_csv("Café (respuestas).csv")
-df_filtered <- df %>% filter(str_starts(as.character(`Alumno encuestador`), "3"))
+TP <- read_csv("Café (respuestas).csv")
+TP
+df_filtered <- TP %>% filter(str_starts(as.character(`Alumno encuestador`), "3"))
 
 df_filtered
 
@@ -144,9 +145,8 @@ En primer lugar, definimos las variables relevantes para nuestro caso\
 ahora que ya hemos definido las variables relevantes, creamos un dataset de solo estas
 
 ```{r}
-crear_DF2 <- function(df_filtered) {
-  # Seleccionar las variables de interés
-  DF2 <- df_filtered[, c("Sexo",
+crear_DF2 <- function(TP){
+  DF2 <- TP[, c("Sexo",
                          "Edad",
                          "Ciclo:",
                          "¿Consume café?",
@@ -165,7 +165,6 @@ crear_DF2 <- function(df_filtered) {
   return(DF2)
 }
 
-# Uso de la función para crear el nuevo dataset DF2
 DF2
 ```
 
@@ -328,10 +327,10 @@ quantile(DF2$Monto_maximo_cafe, na.rm = TRUE)
 nos da 40 que si bien es extremo es creíble
 
 ahora es el turno de la variable Gasto_semanal_cafe\
-aplicamos criterio y usamos como filtro 100 soles máximo
+aplicamos criterio y usamos como filtro 200 soles máximo
 
 ```{r}
-DF2$Gasto_semanal_cafe <- ifelse(DF2$Gasto_semanal_cafe > 100, NA, DF2$Gasto_semanal_cafe)
+DF2$Gasto_semanal_cafe <- ifelse(DF2$Gasto_semanal_cafe > 200, NA, DF2$Gasto_semanal_cafe)
 quantile(DF2$Gasto_semanal_cafe, na.rm = TRUE)
 ```
 
