@@ -79,7 +79,6 @@ library(ggplot2)
 ### Miscelánea
 
 ```{r}
-
 df <- read_csv("Café (respuestas).csv")
 df_filtered <- df %>% filter(str_starts(as.character(`Alumno encuestador`), "3"))
 
@@ -167,7 +166,6 @@ crear_DF2 <- function(df_filtered) {
 }
 
 # Uso de la función para crear el nuevo dataset DF2
-DF2 <- crear_DF2(df_filtered)
 DF2
 ```
 
@@ -233,8 +231,6 @@ cambiar_nombres_DF2 <- function(DF2) {
   return(DF2)
 }
 
-# Uso de la función para cambiar los nombres en el dataset DF2
-DF2 <- cambiar_nombres_DF2(DF2)
 DF2
 ```
 
@@ -244,14 +240,106 @@ sin embargo podemos ver que hay variables como promedio donde hay datos raros co
 vamos a limpiar estos datos estableciendo que promedio no puede subir de 20 remplazándolos con NAs
 
 ```{r}
-# Función para reemplazar los valores mayores a 20 en Promedio_ponderado_2024_1 por NA
-reemplazar_promedio_na <- function(DF2) {
-  DF2$Promedio_ponderado_2024_1 <- ifelse(DF2$Promedio_ponderado_2024_1 > 20, NA, DF2$Promedio_ponderado_2024_1)
+DF2$Promedio_ponderado_2024_1 <- ifelse(DF2$Promedio_ponderado_2024_1 > 20, NA, DF2$Promedio_ponderado_2024_1)
+
+
+DF2
+```
+
+Como vemos la variable ahora esta limpia\
+Ahora vamos a limpiar la variable ciclo, para asegurarnos que solo este en el rango normal que debería tener de 1 a 10
+
+```{r}
+reemplazar_ciclo_na <- function(DF2) {
+  DF2$Ciclo <- ifelse(DF2$Ciclo < 1 | DF2$Ciclo > 10, NA, DF2$Ciclo)
   return(DF2)
 }
 
-# Uso de la función para modificar el dataset DF2
-DF2 <- reemplazar_promedio_na(DF2)
+DF2
+```
+
+Ahora trataremos de limpiar a la variable edad\
+primero la analizaremos mediante quantile
+
+```{r}
+quantile(DF2$Edad,na.rm = TRUE)
+max(DF2$Edad)
+```
+
+como vemos si presenta valores atípicos\
+para esto limitamos el rango de edades a menos de 199 para ver si ese era el único valor raro, usando como criterio máximo 50
+
+```{r}
+DF2$Edad <- ifelse(DF2$Edad > 50, NA, DF2$Edad)
+
+quantile(DF2$Edad, na.rm = TRUE)
+```
+
+Como vemos nos bota 39 que si tiene algo de sentido como edad máxima
+
+seguimos con la variable tazas por día y usamos quantile para ver si hay datos anormales\
+primero convertimos la variable a numérica y luego usamos quantile.
+
+```{r}
+DF2$Tazas_por_dia <- as.numeric(DF2$Tazas_por_dia)
+quantile(DF2$Tazas_por_dia, na.rm = TRUE)
+```
+
+como vemos si hay un valor anormal el cual es el 80\
+filtramos con el criterio que nos dijo el profesor el cual era de 10 tazas y comprobamos
+
+```{r}
+  
+DF2$Tazas_por_dia <- ifelse(DF2$Tazas_por_dia > 10, NA, DF2$Tazas_por_dia)
+
+quantile(DF2$Tazas_por_dia, na.rm = TRUE)
+```
+
+Nos quedamos con 10 tazas que si bien es algo extremo es mas creíble pues fue lo que nos dijo el profesor que se tomaba al día
+
+ahora trataremos de limpiar la variable Tazas_antes_UTEC de la misma manera, primero la convertimos a numerica y como ya tenemos el criterio de las 10 tazas lo aplicamos directamente
+
+```{r}
+DF2$Tazas_antes_UTEC <- as.numeric(DF2$Tazas_antes_UTEC)
+DF2$Tazas_antes_UTEC <- ifelse(DF2$Tazas_antes_UTEC > 10, NA, DF2$Tazas_antes_UTEC)
+
+quantile(DF2$Tazas_antes_UTEC, na.rm = TRUE)
+```
+
+Nos queda con 6 tazas al día como máximo lo cual es creíble
+
+ahora trataremos de limpiar la variable Tazas_exámenes, como ya tenemos criterio ponemos de frente el máximo 10 tazas
+
+```{r}
+DF2$Tazas_examenes <- ifelse(DF2$Tazas_examenes > 10, NA, DF2$Tazas_examenes)
+quantile(DF2$Tazas_examenes, na.rm = TRUE)
+```
+
+nos queda como máximo el diez que como dijimos anteriormente si bien es extremo es creíble
+
+ahora es el turno de la variable monto_máximo_café\
+aplicamos criterio y usamos como filtro 50 soles máximo
+
+```{r}
+DF2$Monto_maximo_cafe <- ifelse(DF2$Monto_maximo_cafe > 50, NA, DF2$Monto_maximo_cafe)
+quantile(DF2$Monto_maximo_cafe, na.rm = TRUE)
+```
+
+nos da 40 que si bien es extremo es creíble
+
+ahora es el turno de la variable Gasto_semanal_cafe\
+aplicamos criterio y usamos como filtro 100 soles máximo
+
+```{r}
+DF2$Gasto_semanal_cafe <- ifelse(DF2$Gasto_semanal_cafe > 100, NA, DF2$Gasto_semanal_cafe)
+quantile(DF2$Gasto_semanal_cafe, na.rm = TRUE)
+```
+
+Nos da 100 soles que si bien es bastante es creíble
+
+por ultimo vemos el dataframe ya limpio y prolijo
+
+```{r}
 DF2
 ```
 
