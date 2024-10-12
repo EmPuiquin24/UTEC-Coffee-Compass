@@ -79,9 +79,9 @@ library(ggplot2)
 ### Miscelánea
 
 ```{r}
-TP <- read_csv("Café (respuestas).csv")
-TP
-df_filtered <- TP %>% filter(str_starts(as.character(`Alumno encuestador`), "3"))
+df <- read_csv("Café (respuestas).csv")
+df
+df_filtered <- df %>% filter(str_starts(as.character(`Alumno encuestador`), "3"))
 
 df_filtered
 
@@ -145,8 +145,7 @@ En primer lugar, definimos las variables relevantes para nuestro caso\
 ahora que ya hemos definido las variables relevantes, creamos un dataset de solo estas
 
 ```{r}
-crear_DF2 <- function(TP){
-  DF2 <- TP[, c("Sexo",
+  DF2 <- df[, c("Sexo",
                          "Edad",
                          "Ciclo:",
                          "¿Consume café?",
@@ -162,8 +161,7 @@ crear_DF2 <- function(TP){
                          "¿En qué tipo de establecimiento compras café con mayor frecuencia?",
                          "¿Tu consumo de café cambió al ingresar a la universidad?")]
   
-  return(DF2)
-}
+
 
 DF2
 ```
