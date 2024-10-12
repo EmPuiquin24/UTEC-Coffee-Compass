@@ -357,16 +357,176 @@ Porcentaje_NA = round(sapply(DF2, function(columna) sum(is.na(columna)))
 # Avance 3
 
 1.  Este avance parte la base de datos limpia. Es decir, la muestra efectiva.
+
 2.  Partimos en dos bloques de análisis:\
-    1.  Análisis univariado\
+
+    1.  Análisis univariado
+
     2.  Análisis bivariado
+
 3.  También puede estructurarse el informe en función de los objetivos\
-    1.  Objetivo 1\
-    2.  Objetivo 2\
-    3.  Etc
+
+    **Objetivo 1**: Explorar la relación entre el consumo de café y el rendimiento académico en los estudiantes de pregrado de la Universidad de Ingeniería y Tecnología\
+
+    **Objetivo 2**: Explorar la relación económica de los estudiantes de pre-grado de la Universidad de Tecnología e Ingeniería con su comportamiento de consumo de café.\
+
 4.  Identificar las variables más relevantes del estudio.
-5.  El análisis coherente se refiere a que las conclusiones a partir de los gráficos y descriptores numéricos estén en el contexto del estudio.\
-    -   ERROR: La mediana de los ingresos es 1500, la media/promedio de los ingresos es 1200, la desviación estándar es 200, etc\
-    -   CORRECTO: Se observa en el gráfico 1 que la distribución de ingresos es asimétrica con la cola a la derecha, es decir, el 50% de los limeños tienen ingreso menor a 1500, etc, etc
-6.  Si un objetivo es: ESTUDIAR la relación entre los ingresos mensuales y el nivel educativo de Lima Provinvia en el 2020.\
-    -   Generar los descriptores apropiados Boxplot indexado y proporción por nivel Educativo: etc, etc
+
+Las variables mas relevantes para el estudio en este caso son\
+para el **Objetivo 1**:\
+Tazas_por_día y Rendimiento_con_cafe
+
+Tazas_por_día =\> numerica continua =\> histograma\
+Rendimiento_con_café =\>cualitativa ordinal =\> gráfico de barras
+
+para el **Objetivo 2**:
+
+Gasto_semanal_café y Apoyo_económico
+
+Gasto_semanal_café =\> numerica continua =\> histograma
+
+Apoyo_económico =\> cualitativa nominal =\> gráfico de barras
+
+# Análisis Tazas_por_día:
+
+```{r}
+
+moda <- as.numeric(names(sort(table(DF2$Tazas_por_dia), decreasing = TRUE)[1]))
+promedio <- mean(DF2$Tazas_por_dia, na.rm = TRUE)
+mediana <- median(DF2$Tazas_por_dia, na.rm = TRUE)
+
+grafico_cafe <- ggplot(DF2, aes(x = Tazas_por_dia)) +
+  geom_histogram(binwidth = 1, fill = "steelblue", color = "white", alpha = 0.7) +
+  labs(title = "Consumo de café en alumnos UTEC en tazas diarias",
+       x = "Cantidad de tazas",
+       y = "Frecuencia dentro de la muestra") +
+  theme_minimal(base_size = 15) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),
+    axis.title.x = element_text(size = 14),
+    axis.title.y = element_text(size = 14),
+    axis.text = element_text(size = 12)
+  ) +
+  scale_x_continuous(breaks = seq(0, max(DF2$Tazas_por_dia, na.rm = TRUE), by = 1)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  geom_vline(aes(xintercept = moda), color = "red", linetype = "dashed", size = 1) +   
+  geom_vline(aes(xintercept = promedio), color = "green", linetype = "dashed", size = 1) +  
+  geom_vline(aes(xintercept = mediana), color = "blue", linetype = "dashed", size = 1) +   
+  geom_text(aes(x = moda, y = max(table(DF2$Tazas_por_dia)) + 1, label = "Moda"), color = "red", vjust = +7.5, size = 5) +
+  geom_text(aes(x = promedio, y = max(table(DF2$Tazas_por_dia)) + 2, label = "Promedio"), color = "green", vjust = +13.5, size = 5) +
+  geom_text(aes(x = mediana, y = max(table(DF2$Tazas_por_dia)) + 3, label = "Mediana"), color = "blue", vjust = +10.5, size = 5)
+
+print(grafico_cafe)
+
+quantile(DF2$Tazas_por_dia, na.rm = TRUE)
+table(DF2$Tazas_por_dia)
+sum(!is.na(DF2$Tazas_por_dia))
+sum(is.na(DF2$Tazas_por_dia))
+3/176*100
+round(mean(DF2$Tazas_por_dia, na.rm = TRUE), 2)
+round(sd(DF2$Tazas_por_dia, na.rm = TRUE)/mean(DF2$Tazas_por_dia, na.rm = TRUE)*100, 2)
+
+```
+
+**Análisis:**
+
+se observa en el gráfico 1, que la frecuencia de las tazas es bastante asimétrica, siendo asimétrica hacia la derecha. En otras palabras, mas del 50% de la muestra tiene un consumo de café menor o igual a la mediana, la cual es de 2 tazas por día, estando la variable muy poco dispersa. El promedio es algo mas alto que la mediana, siendo 2.16 tazas por alumno, debido a la presencia de personas que dijeron consumir 9 o mas tazas diarias (1.7%). A pesar de esto, el promedio no es significativamente mas grande que la mediana. Sin embargo, el CV es bastante grande (76.83%), por lo que el mejor descriptor para resumir el consumo de café sigue siendo la mediana. La moda se aleja significativamente de los otros dos descriptores, siendo de 1. En conclusión, podemos afirmar que la gran mayoría de alumnos que consumen café en UTEC suelen no consumir mas de 2 tazas, con lo mas común siendo que consuman solo 1, por lo que suele ser un consumo de café generalmente bajo y casual.
+
+# Análisis Rendimiento_con_café
+
+```{r}
+grafico_rendimiento_cafe <- ggplot(DF2, aes(x = Rendimiento_con_cafe)) +
+  geom_bar(fill = "steelblue", color = "white", alpha = 0.7) +
+  labs(title = "Rendimiento Académico de Alumnos de UTEC con Café",
+       x = "Calidad de rendimiento con Café",
+       y = "Frecuencia") +
+  theme_minimal(base_size = 15) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),
+    axis.title.x = element_text(size = 14),
+    axis.title.y = element_text(size = 14),
+    axis.text = element_text(size = 12)
+  ) +
+  scale_x_discrete(drop = FALSE) +  
+  scale_y_continuous(expand = c(0, 0)) + 
+  geom_text(stat = 'count', aes(label = ..count..), vjust = +1, size = 5)  
+
+print(grafico_rendimiento_cafe)
+
+round(97/178*100, 2)
+round(54/178*100, 2)
+round(20/178*100, 2)
+round(7/178*100, 2)
+```
+
+**Análisis:**
+
+En el gráfico que representa el **rendimiento académico** de los alumnos de UTEC que consumen café, se observa una distribución clara y diferenciada de las categorías, ordenadas de mejor a menor rendimiento: "**excelente" (20), "bueno" (97), "regular" (54) y "puede mejorar" (7)**. Esta distribución muestra que la mayoría de los estudiantes perciben un rendimiento "**bueno"** al consumir café, siendo el **54.49%** del total. "**Regular"** ocupa el segundo lugar, siendo el **30.34%** del total, seguido por "**Excelente**" (**11.24%**) y **"Puede mejorar"** (**3.94%**). Tanto la **moda** como la **mediana** la pertenecen a "**bueno**", por lo que se puede decir en relación a la anterior esta variable es mucho mas simétrica y concentrada en la **mediana**. En base a esta información, podemos concluir que el consumo de café se asocia predominantemente con un rendimiento académico bueno entre los estudiantes de UTEC, con una significativa cantidad que considera su rendimiento como excelente gracias al consumo de esta bebida.
+
+# Análisis de correlación de las dos variables
+
+Una vez ya analizadas las dos variables, es hora de ver si existe algún tipo de correlación entre ellas. Como sabemos, el objetivo 1 trata básicamente acerca de si hay una correlación entre cuanto café consume un alumno y su rendimiento, pues esta fue una conjetura establecida por el profesor Orlando Galarza, el cual afirmo que mientras mas café consuma un estudiante mejor le va ir. La manera de tratar de comprobar esta hipótesis es mediante las dos variables que hemos escogido, pues una nos indica cuanto café consumen los alumnos y la otra nos indica que tan bien les va. La manera en la que intentaremos encortar la correlación sera de la siguiente manera: Filtraremos a los alumnos que dicen consumir solo entre 1 y 2 tasas y volveremos a generar un gráfico de la variable rendimiento, el cual sera exclusivo de este grupo. Luego haremos otro gráfico de la variable rendimiento pero solo con los alumnos que tomen 3 o mas tazas al día. La lógica nos dice que este ultimo grupo debería tener mayor cantidad de rendimientos tipo "excelente" y "bueno" que el inicial, el cual debería tener mas rendimientos de tipo "regular" y "puede mejorar" proporcionalmente.\
+
+**GRAFICO 1: GRUPO 1 y 2 Tazas al Día**
+
+```{r}
+grafico_rendimiento_cafe <- DF2 %>%
+  filter(Tazas_por_dia >= 1 & Tazas_por_dia <= 2) %>%
+  ggplot(aes(x = Rendimiento_con_cafe)) +
+  geom_bar(fill = "steelblue", color = "white", alpha = 0.7) +
+  labs(title = "Rendimiento de alumnos que consumen de 1 a 2 tazas",
+       x = "Calidad de rendimiento con Café",
+       y = "Frecuencia") +
+  theme_minimal(base_size = 15) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),
+    axis.title.x = element_text(size = 14),
+    axis.title.y = element_text(size = 14),
+    axis.text = element_text(size = 12)
+  ) +
+  scale_x_discrete(drop = FALSE) +  
+  scale_y_continuous(expand = c(0, 0)) + 
+  geom_text(stat = 'count', aes(label = ..count..), vjust = +1, size = 5)  
+
+print(grafico_rendimiento_cafe)
+
+round(71/122*100, 2)
+round(7/122*100, 2)
+round(41/122*100, 2)
+```
+
+**GRAFICO 2: GRUPO 3 y mas Tazas al Día\
+**
+
+```{r}
+
+
+grafico_rendimiento_cafe <- DF2 %>%
+  filter(Tazas_por_dia >= 3) %>%  # Filtra para tazas por día de 3 en adelante
+  ggplot(aes(x = Rendimiento_con_cafe)) +
+  geom_bar(fill = "steelblue", color = "white", alpha = 0.7) +
+  labs(title = "Rendimiento de alumnos que consumen 3 o mas tazas",
+       x = "Calidad de rendimiento con Café",
+       y = "Frecuencia") +
+  theme_minimal(base_size = 15) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),
+    axis.title.x = element_text(size = 14),
+    axis.title.y = element_text(size = 14),
+    axis.text = element_text(size = 12)
+  ) +
+  scale_x_discrete(drop = FALSE) +  
+  scale_y_continuous(expand = c(0, 0)) + 
+  geom_text(stat = 'count', aes(label = ..count..), vjust = +1, size = 5)  
+
+print(grafico_rendimiento_cafe)
+
+
+round(24/47*100, 2)
+round(10/47*100, 2)
+round(9/47*100, 2)
+```
+
+**Análisis:**
+
+Como podemos ver, el gráfico 1 (grupo de entre 1 y 2 tazas) y el gráfico 2 (grupo de entre 3 o mas tazas) son significativamente diferentes. Si bien la **moda** en ambos es rendimiento tipo "bueno" (58.2% en gráfico 1, 51.06% en el gráfico 2), el porcentaje de alumnos con rendimiento "excelente" es muchísimo mas alto en el gráfico 2, siendo el 21.28%, mientras que el porcentaje de alumnos con rendimiento "excelente" en el gráfico 1 es apenas del 5.74%. En otras palabras, los alumnos que toman 3 o mas tazas de café al día tienen en proporción al tamaño de su grupo unas 4 veces mas personas con rendimiento excelente comparado a los alumnos que solo toman de 1 a 2 tazas de café al día. En cuanto al porcentaje de alumnos con rendimiento "regular", este es significativamente mas bajo en el gráfico 2, siendo solo el 19.15%, mientras que en el gráfico 1 es del 33.61%. En base a esto, podemos concluir que la hipótesis fue cierta, ya que hay una cierta correlación directamente proporcional entre mientras mas café tome un alumno y su rendimiento académico.
