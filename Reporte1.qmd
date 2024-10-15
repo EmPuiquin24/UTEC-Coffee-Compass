@@ -1,3 +1,29 @@
+```{r}
+# install.packages("readr") # Para cargar el csv
+# install.packages("plyr")
+# install.packages("dplyr")
+# install.packages("tidyr")
+# install.packages("tidyverse") 
+# install.packages("ggplot2") # Para imprimir los gráficos
+# install.packages("lubridate")
+# install.packages("ggalt")
+# install.packages("scales")
+
+
+```
+
+```{r}
+library(readr)
+library(plyr)
+library(dplyr)
+library(tidyr)
+library(tidyverse)
+library(ggplot2)
+library(lubridate)
+library(ggalt)
+library(scales)
+```
+
 # Informe Acerca del consumo del cafe en estudiantes UTEC durante el ciclo 2024 - 2
 
 # I. Introducción
@@ -10,13 +36,53 @@ Este informe tiene como objetivo investigar el consumo de café entre los estudi
 
 ## 2. Planificación
 
-## 3. Relevancia
+Para esta parte hemos hecho un diagrama de Gantt donde se muestra como fue el proceso del desarrollo del proyecto:\
+
+```{r}
+data <- data.frame(
+  Task = c("Avance 1: Definicion de objetivos", 
+           "Avance 2: Recoleccion y limpieza de datos", 
+           "Realizacion de encuestas", 
+           "Avance 3: Analisis de datos", 
+           "Informe final"),
+  
+  Start = as.Date(c("2024-09-09", "2024-09-16", "2024-09-16", "2024-10-01", "2024-10-12")), # Fechas de inicio
+  End = as.Date(c("2024-09-13", "2024-09-24", "2024-10-10", "2024-10-11", "2024-10-20")),   # Fechas de fin
+  
+  Responsable = c("Todos", 
+                  "Rodrigo y Héctor", 
+                  "Todos", 
+                  "Rodrigo y Héctor", 
+                  "Todos")
+)
+
+# Creamos colores diferentes para cada responsable
+data$Color <- factor(data$Responsable, levels = c("Rodrigo y Héctor", "Todos"))
+
+# Graficamos el diagrama de Gantt
+ggplot(data, aes(x = Start, xend = End, y = Task, yend = Task, color = Color)) +
+  geom_segment(size = 6) + 
+  scale_x_date(breaks = date_breaks("1 week"), labels = date_format("%d-%b")) + 
+  labs(title = "Planeamiento del proyecto del consumo de café en estudiantes UTEC 2024-2",
+       x = "Fecha", 
+       y = "Tareas") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = +0.5, face = "bold", size = 12)  
+  )
+
+
+
+```
 
 ## 3. Objetivos
 
+El proyecto cuenta con un objetivo general, el cual fue acordado entre todos los grupos, y 2 objetivos específicos, el cual fue decidido por nuestro grupo.
+
 ## 3.1 Objetivo general
 
-## 3.2 Objetivos especificos
+## 3.2 Objetivos específicos
 
 # II. Datos
 
@@ -34,6 +100,6 @@ Este informe tiene como objetivo investigar el consumo de café entre los estudi
 
 ## 1. Análisis variado
 
-## 2. Análisis de interacción 
+## 2. Análisis de interacción
 
 # IIII. Conclusiones
