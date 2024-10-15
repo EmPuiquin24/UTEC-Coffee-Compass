@@ -1,0 +1,39 @@
+# Informe Acerca del consumo del cafe en estudiantes UTEC durante el ciclo 2024 - 2
+
+# I. Introducción
+
+## 1. Relevancia
+
+El café es hoy una de las bebidas más consumidas en el mundo. Ya sea por su buen sabor, por su capacidad para mantenernos despiertos o por su efecto social, el café se ha ganado un lugar privilegiado en la vida cotidiana de millones de personas. En el ámbito académico, especialmente entre los estudiantes universitarios, el consumo de café se ha vuelto casi indispensable, pues muchos lo utilizan como un aliado para sobrellevar las largas jornadas de estudio y mantener la concentración. Pero el impacto real de esta bebida en el rendimiento académico y la salud de los estudiantes sigue siendo un tema de debate.
+
+Este informe tiene como objetivo investigar el consumo de café entre los estudiantes de la Universidad de Ingeniería y Tecnología (UTEC) durante 2024-2. A través de encuestas y análisis de datos, se evaluará no sólo la frecuencia y cantidad de café consumido, sino también su relación con factores como el rendimiento académico, el bienestar financiero y el estilo de vida de los estudiantes. La intención es brindar una descripción general completa del papel que desempeña el café en las vidas de los jóvenes estudiantes universitarios y cómo esta popular bebida puede afectar su éxito académico y su calidad de vida en general.
+
+## 2. Planificación
+
+## 3. Relevancia
+
+## 3. Objetivos
+
+## 3.1 Objetivo general
+
+## 3.2 Objetivos especificos
+
+# II. Datos
+
+## 1. Población objetivo
+
+## 2. Tipo de muestreo
+
+## 3. Recolección de datos
+
+## 4. Variables
+
+## 5. Limpieza
+
+# III. Análisis descriptivo
+
+## 1. Análisis variado
+
+## 2. Análisis de interacción 
+
+# IIII. Conclusiones
