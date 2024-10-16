@@ -24,7 +24,7 @@ library(ggalt)
 library(scales)
 ```
 
-# Informe Acerca del consumo del cafe en estudiantes UTEC durante el ciclo 2024 - 2
+# Informe Acerca del consumo del café en estudiantes UTEC durante el ciclo 2024 - 2
 
 # I. Introducción
 
@@ -88,21 +88,21 @@ Este proyecto cuenta con un objetivo general (el cual fue acordado por la seccio
 
 ### 1. Explorar la relación entre el consumo de café y el rendimiento académico en los estudiantes de pregrado de la Universidad de Ingeniería y Tecnología.
 
-### Objetivo 2: Explorar la relación económica entre el consumo de café y los estudiantes de pregrado de la Universidad de Ingeniería y Tecnología.
+### 2. Explorar la relación económica entre el consumo de café y los estudiantes de pregrado de la Universidad de Ingeniería y Tecnología.
 
 # II. Datos
 
 ## 1. Población objetivo
 
-Alumnos de pregrado de la Universidad de Ingenieria y Tecnología (UTEC) durante el ciclo académico 2024-II
+En base a los objetivos planteados para nuestra investigación, la población objetivo son los estudiantes de pre-grado de la Universidad de Ingeniería y Tecnología. Cada unidad muestral corresponde a las respuestas de cada estudiante que forma parte de nuestra muestra total. Para mejorar la representatividad de la muestra, las encuestas se llevaron a cabo en diversos lugares de la UTEC, como biblioteca, cafetería, salas de estudio, etc. Además, se varió la hora en la que se realizaron las encuestas para poder tener respuestas más variadas. Estas medidas fueron esenciales para lograr obtener una muestra más representativa de nuestra población objetivo.
 
 ## 2. Tipo de muestreo
 
-El muestro fue hecho por conveniencia
+El tipo de muestreo usado para la recolección de muestras fue el muestreo no probabilístico por conveniencia. Este tipo de muestreo se caracteriza por la facilidad que tiene el investigador al momento de realizar la recolección de datos, ya que, a diferencia de otros tipos de muestreo, no se necesita una planificación compleja antes de comenzar con la recolección de muestras. Una de las desventajas del muestreo por conveniencia es que distintos factores pueden afectar a la representatividad de la muestra. En nuestro caso, cada uno de los investigadores realizó las encuestas en distintos horarios y lugares, lo cual ayudó a obtener una mayor variedad de respuestas, para que así nuestra muestra sea lo suficientemente representativa para lograr nuestros objetivos planteados.
 
 ## 3. Recolección de datos
 
-La recolección de datos fue hecha mediante un formulario de Google Forms el cual puede ser visto desde [este enlace](https://docs.google.com/forms/d/e/1FAIpQLSdoeZFY1mDeHzW44Am4GdHrS2rux-DjV3Jp2UWe7cvy-ndTiQ/viewform)
+Para la recolección de datos, se elaboró un cuestionario sobre el consumo de café de los estudiantes de pre-grado de la UTEC. Este cuestionario constó de treinta y ocho preguntas, conformadas por respuestas de opción múltiple y libres. Cada grupo de investigación definió sus variables en relación a sus objetivos específicos. Para dar un seguimiento de las respuestas obtenidas, se usó un archivo Excel que permitió monitorear la cantidad de unidades muestrales por grupo, donde se especificaba la cantidad de unidades sin NA. La recolección de datos se realizó a partir del 18 de septiembre hasta el 10 de octubre del presente año, obteniendo un total de 2018 unidades muestrales, de las cuales 1128 muestras no presentaban datos faltantes. Finalmente, como ya explicamos anteriormente, las encuestas se realizaron en diversos lugares y horarios dentro de la universidad para captar una mayor variedad de respuestas y mejorar la representatividad de la muestra. 
 
 ## 4. Variables
 
