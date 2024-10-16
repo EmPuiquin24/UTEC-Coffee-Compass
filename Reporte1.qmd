@@ -78,23 +78,39 @@ ggplot(data, aes(x = Start, xend = End, y = Task, yend = Task, color = Color)) +
 
 ## 3. Objetivos
 
-El proyecto cuenta con un objetivo general, el cual fue acordado entre todos los grupos, y 2 objetivos específicos, el cual fue decidido por nuestro grupo.
+Este proyecto cuenta con un objetivo general (el cual fue acordado por la seccion 4.01) y 2 objetivos específicos, los cuales fueron decididos por nuestro grupo.
 
 ## 3.1 Objetivo general
 
+**Determinar si en su mayoría los alumnos de pregrado de la Universidad de Ingeniería y Tecnología consumen café.**
+
 ## 3.2 Objetivos específicos
+
+### 1. Explorar la relación entre el consumo de café y el rendimiento académico en los estudiantes de pregrado de la Universidad de Ingeniería y Tecnología.
+
+### Objetivo 2: Explorar la relación económica entre el consumo de café y los estudiantes de pregrado de la Universidad de Ingeniería y Tecnología.
 
 # II. Datos
 
 ## 1. Población objetivo
 
+Alumnos de pregrado de la Universidad de Ingenieria y Tecnología (UTEC) durante el ciclo académico 2024-II
+
 ## 2. Tipo de muestreo
+
+El muestro fue hecho por conveniencia
 
 ## 3. Recolección de datos
 
+La recolección de datos fue hecha mediante un formulario de Google Forms el cual puede ser visto desde [este enlace](https://docs.google.com/forms/d/e/1FAIpQLSdoeZFY1mDeHzW44Am4GdHrS2rux-DjV3Jp2UWe7cvy-ndTiQ/viewform)
+
 ## 4. Variables
 
+xd
+
 ## 5. Limpieza
+
+Con recogedor y trapeador
 
 # III. Análisis descriptivo
 
