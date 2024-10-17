@@ -8,8 +8,6 @@
 # install.packages("lubridate")
 # install.packages("ggalt")
 # install.packages("scales")
-
-
 ```
 
 ```{r}
@@ -78,11 +76,11 @@ ggplot(data, aes(x = Start, xend = End, y = Task, yend = Task, color = Color)) +
 
 ## 3. Objetivos
 
-Este proyecto cuenta con un objetivo general (el cual fue acordado por la seccion 4.01) y 2 objetivos específicos, los cuales fueron decididos por nuestro grupo.
+Este proyecto cuenta con un objetivo general (el cual fue acordado por la sección 4.01) y 2 objetivos específicos, los cuales fueron decididos por nuestro grupo.
 
 ## 3.1 Objetivo general
 
-**Determinar si en su mayoría los alumnos de pregrado de la Universidad de Ingeniería y Tecnología consumen café.**
+**Determinar si en su mayoría los alumnos de pre-grado de la Universidad de Ingeniería y Tecnología consumen café.**
 
 ## 3.2 Objetivos específicos
 
@@ -102,15 +100,203 @@ El tipo de muestreo usado para la recolección de muestras fue el muestreo no pr
 
 ## 3. Recolección de datos
 
-Para la recolección de datos, se elaboró un cuestionario sobre el consumo de café de los estudiantes de pre-grado de la UTEC. Este cuestionario constó de treinta y ocho preguntas, conformadas por respuestas de opción múltiple y libres. Cada grupo de investigación definió sus variables en relación a sus objetivos específicos. Para dar un seguimiento de las respuestas obtenidas, se usó un archivo Excel que permitió monitorear la cantidad de unidades muestrales por grupo, donde se especificaba la cantidad de unidades sin NA. La recolección de datos se realizó a partir del 18 de septiembre hasta el 10 de octubre del presente año, obteniendo un total de 2018 unidades muestrales, de las cuales 1128 muestras no presentaban datos faltantes. Finalmente, como ya explicamos anteriormente, las encuestas se realizaron en diversos lugares y horarios dentro de la universidad para captar una mayor variedad de respuestas y mejorar la representatividad de la muestra. 
+Para la recolección de datos, se elaboró un cuestionario sobre el consumo de café de los estudiantes de pre-grado de la UTEC. Este cuestionario constó de treinta y ocho preguntas, conformadas por respuestas de opción múltiple y libres. Cada grupo de investigación definió sus variables en relación a sus objetivos específicos. Para dar un seguimiento de las respuestas obtenidas, se usó un archivo Excel que permitió monitorear la cantidad de unidades muestrales por grupo, donde se especificaba la cantidad de unidades sin NA. La recolección de datos se realizó a partir del 18 de septiembre hasta el 16 de octubre del presente año, obteniendo un total de 2047 unidades muestrales, de las cuales 1401 muestras no presentaban datos faltantes. Finalmente, como ya explicamos anteriormente, las encuestas se realizaron en diversos lugares y horarios dentro de la universidad para captar una mayor variedad de respuestas y mejorar la representatividad de la muestra. Como estrategia empleamos el ofrecer un caramelo al encuestado a cambio de su tiempo, la cual termino resultando muy efectiva.
 
 ## 4. Variables
 
-xd
+Las variables escogidas fueron 6 y se les cambio el nombre para hacerlas mas fáciles de entender:
+
+### Objetivo 1: Comparar el rendimiento académico
+
+1.  **Tazas_por_día** (En promedio, ¿Cuántas tazas de café consumes en un día?)
+2.  **Rendimiento_con_café** (¿Cómo describirías tu rendimiento académico cuando consumes café?)
+3.  **Promedio_ponderado_2024_1** (Promedio ponderado en el ciclo 2024-1)
+
+### Objetivo 2: Relación económica del consumo de café
+
+1.  **Apoyo_económico** (¿Recibes algún apoyo económico para estudiar en UTEC?)
+2.  **Gasto_semanal_café** (Gasto en café a la semana)
+3.  **Lugar_compra_café** (Tipo de establecimiento donde compras café con mayor frecuencia)
+
+A continuación se explicara como cada una se vincula con los objetivos para demostrar su relevancia al tema.
+
+#### Objetivo 1:
+
+**Comparar el rendimiento académico entre los estudiantes de pregrado de la Universidad de Tecnología e Ingeniería que consumen café y los que no consumen café.**
+
+Para este objetivo, es fundamental seleccionar variables que estén directamente relacionadas con el consumo de café y el rendimiento académico. Las variables seleccionadas fueron:
+
+1.  **Tazas por día**: Esta variable cuantitativa mide el número de tazas de café que los estudiantes consumen diariamente. Es esencial porque nos permite dividir a los estudiantes en grupos (consumidores regulares y no consumidores), y comparar su rendimiento académico de manera significativa. También ayuda a explorar si existe una relación entre el nivel de consumo de café y el rendimiento académico.
+
+    -   **Tipo**: Variable cuantitativa continua.
+
+    -   **Restricciones**: El número de tazas debe ser un número entero no negativo. Valores extremos o incoherentes se deben manejar como outliers o NA (según nuestro criterio, empleamos el rango 1-10).
+
+2.  **Rendimiento con café**: Esta variable cualitativa ordinal clasifica el rendimiento académico de los estudiantes cuando consumen café en categorías como "Excelente", "Bueno", "Regular", y "Puede mejorar". Nos da una perspectiva subjetiva de cómo los estudiantes perciben que el café afecta su rendimiento, lo cual es relevante para identificar diferencias entre grupos.
+
+    -   **Tipo**: Variable cualitativa ordinal (con un orden claro de mejor a peor).
+
+    -   **Restricciones**: Solo debe contener las categorías definidas previamente, las cuales son: **\[Excelente\]**; **\[Bueno\]**; **\[Regular\]**; **\[Puede Mejorar\]**.
+
+3.  **Promedio ponderado del ciclo 2024-1**: Esta variable cuantitativa mide el rendimiento académico real de los estudiantes (en una escala de 0 a 20). Es clave para evaluar el impacto objetivo del consumo de café en el rendimiento académico. Es una de las métricas principales para la comparación en este objetivo.
+
+    -   **Tipo**: Variable cuantitativa continua.
+
+    -   **Restricciones**: Los valores deben estar entre 0 y 20. Valores superiores a 20 deben ser convertidos a NA para evitar incoherencias.
+
+#### Objetivo 2:
+
+**Explorar la relación económica de los estudiantes de pre-grado de la Universidad de Tecnología e Ingeniería con su comportamiento de consumo de café.**
+
+Para este objetivo, se seleccionaron variables que reflejan el impacto económico del consumo de café en los estudiantes. Las variables elegidas fueron:
+
+1.  **Gasto semanal en café**: Esta variable cuantitativa mide el gasto promedio semanal que los estudiantes destinan a la compra de café. Es fundamental para analizar el impacto económico del consumo de café en los estudiantes. La variación en los gastos también permite comparar a los estudiantes que reciben apoyo económico con aquellos que no.
+
+    -   **Tipo**: Variable cuantitativa continua.
+
+    -   **Restricciones**: Debe ser un valor numérico no negativo, y valores extremos deben ser tratados como outliers o NA (En nuestro caso, decidimos el limite en 200 soles).
+
+2.  **Apoyo económico para estudiar**: Esta variable cualitativa nominal indica si los estudiantes reciben algún tipo de apoyo económico. Es relevante porque nos permite explorar si hay una diferencia en el gasto en café entre aquellos que cuentan con ayuda financiera y los que no. Podría estar relacionado con la capacidad de los estudiantes de gastar en productos no esenciales como el café.
+
+    -   **Tipo**: Variable cualitativa nominal.
+
+    -   **Restricciones**: Solo debe contener las respuestas del grupo de opciones: **\[Beca\]**; **\[Ninguno\]**; **\[Semi-beca\]**.
+
+3.  **Lugar de compra de café**: Esta variable cualitativa nominal indica dónde los estudiantes suelen comprar café (p.ej., cafeterías, tiendas, etc.). Nos brinda información sobre los patrones de compra y el posible costo asociado dependiendo del lugar de adquisición. Los estudiantes que compran café en cafeterías tienden a gastar más, lo que puede relacionarse con su presupuesto semanal.
+
+    -   **Tipo**: Variable cualitativa nominal.
+
+    -   **Restricciones**: Solo debe contener respuestas del grupo previamente definido: **\["Bodegas" como Listo, Tambo, etc\]**; **\[Starbucks\]**; **\[Cafetería Artesanal\]**; **\[Hago mi propio café\].**
 
 ## 5. Limpieza
 
-Con recogedor y trapeador
+La limpieza fue realizada de la siguiente manera:\
+\
+primero se importo el set de datos original "DF" y se restringió a uno con solo las variables que son relevantes a nuestro objetivos llamado "DF2":
+
+```{r}
+df <- read_csv("Café (respuestas) - Respuestas de formulario 1(2).csv")
+df
+DF2 <- df[, c("En promedio ¿Cuántas tazas de café consumes en un día?", "Si tuvieras que describir tu rendimiento académico cuando consumes café ¿Cómo sería?",
+                         "¿Cuál fue tu promedio ponderado en el ciclo 2024-1? (Tal cual aparece en tu intranet de estudiante).",
+                         "¿Recibes algún apoyo económico para estudiar UTEC?",
+                         "¿Cuánto gastas en café a la semana?",
+                         "¿En qué tipo de establecimiento compras café con mayor frecuencia?")]
+  
+  
+DF2
+```
+
+Después, las variables de DF2 fueron cambiadas de nombre para simplificar su uso y entendimiento:
+
+```{r}
+
+colnames(DF2) <- c("Tazas_por_dia",
+                     "Rendimiento_con_cafe", 
+                     "Promedio_ponderado_2024_1", 
+                     "Apoyo_economico", 
+                     "Gasto_semanal_cafe", 
+                     "Lugar_compra_cafe")
+  
+
+
+DF2
+```
+
+Ahora que ya tenemos el set de datos especifico, vamos a limpiar cada variable independientemente:
+
+### **Limpieza de Variable 1: Tazas_por_día**
+
+la variable 1 fue limpiada usando el criterio sugerido por el profesor, el cual menciono que el máximo de tazas al día debería ser de 10. Sin embargo la variable esta en character en lugar de numerica, asi que primero hay que pasarla a numérica para que pueda usarse apropiadamente. Después, usamos la funcion "ifelse" para filtrar todos los datos que no estén entre 1 y 10 y los remplazamos con NAs.
+
+```{r}
+DF2$Tazas_por_dia <- as.numeric(DF2$Tazas_por_dia)
+
+DF2$Tazas_por_dia <- ifelse(DF2$Tazas_por_dia < 1 | DF2$Tazas_por_dia > 10, NA, DF2$Tazas_por_dia)
+
+
+quantile(DF2$Tazas_por_dia, na.rm = TRUE)
+```
+
+Como vemos ahora si tenemos un rango entre el 1 y el 10.
+
+### **Limpieza de Variable 2: Rendimiento con café**
+
+Debido a que esta variable fue una opción para marcar que no es numérica no puede presentar valores anormales ni fuera de las opciones disponibles, por lo tanto ya esta limpia.
+
+### **Limpieza de Variable 3: Promedio_ponderado_2024_1**
+
+Para limpiar esta variable lo único necesario es restringir el valor máximo de los datos a entre 20 y 0 ya que este es el rango posible del promedio. Sin embargo al igual que la variable 1, promedio se encuentra erróneamente denominada como variable character en lugar de numérica, por lo que primero la convertiremos a numérica. Después, usamos "ifelse" y reemplazamos todos los valores mayores a 20 por NAs.
+
+```{r}
+DF2$Promedio_ponderado_2024_1 <- as.numeric(DF2$Promedio_ponderado_2024_1)
+
+DF2$Promedio_ponderado_2024_1 <- ifelse(DF2$Promedio_ponderado_2024_1 < 0 | DF2$Promedio_ponderado_2024_1 > 20, NA, DF2$Promedio_ponderado_2024_1)
+
+quantile(DF2$Promedio_ponderado_2024_1, na.rm = TRUE)
+```
+
+Como vemos tenemos un rango del 0 al 20, que si bien puede parecer impresionante ya que tener un promedio 0 y un promedio 20 es inimaginable para muchos, no deja de ser posible.
+
+### **Limpieza de Variable 4: Apoyo\_ económico**
+
+Al igual que la variable 2, debido a que esta variable fue una opción para marcar que no es numérica no presenta valores anormales, por lo tanto ya esta limpia.
+
+### **Limpieza de Variable 5: Gasto_semanal_café**
+
+Como se menciono anteriormente, esta variable fue limpiada al establecer como valor máximo a los 200 soles, por lo que nos pareció un criterio razonable de lo máximo que una persona puede gastarse en cafés en un semana. Por lo tanto ahora usando ifelse reemplazaremos todos los valores mayores a 200 por NAs.
+
+```{r}
+DF2$Gasto_semanal_cafe <- ifelse(DF2$Gasto_semanal_cafe > 200, NA, DF2$Gasto_semanal_cafe)
+quantile(DF2$Gasto_semanal_cafe, na.rm = TRUE)
+```
+
+Como vemos tenemos un rango de 0 a 200 (lo cual tiene sentido si los que gastan 0 preparan su propio café), lo que puede parecer bastante loco pues 200 soles es mucho dinero, pero considerando el nivel socio-económico que algunos estudiantes de UTEC tienen no resulta imposible.
+
+### **Limpieza de Variable 6: Lugar_compra_café**
+
+Al igual que la variable 2 y 4, debido a que esta variable fue una opción para marcar no numérica, no presenta datos raros ni valores inusuales por lo que ya esta limpia.
+
+### Tabla prolija final y conteo de muestras
+
+Una vez ya limpiado el set de datos de las variables que vamos a usar, nos queda la siguiente tabla prolija.
+
+```{r}
+DF2
+```
+
+Ahora procedemos a contar el valor efectivo de cada una de las variables en relación al numero de muestras totales, su cantidad de NAs y el porcentaje de NAs de cada uno.
+
+```{r}
+data.frame(
+Tamaño_efectivo = sapply(DF2, function(columna) sum(!is.na(columna))),
+NAs_totales = sapply(DF2, function(columna) sum(is.na(columna))),
+Porcentaje_NA = round(sapply(DF2, function(columna) sum(is.na(columna)))
+/2047*100, 2), Porcentaje_Tamaño_efectivo = round(sapply(DF2, function(columna) sum(!is.na(columna)))
+/2047*100, 2))
+```
+
+Como vemos la mayoría de las variables cuentan con un porcentaje de NAs del 0.05% al 36.25% y un tamaño efectivo del 99.95% al 63.75% , lo cual sigue siendo aceptable.
+
+En cuanto a la recolección de datos, nuestro grupo si llego a los 150 de fuente primaria datos sin NAs como se puede ver aquí:
+
+```{r}
+df_filtered <- df %>% filter(str_starts(as.character(`Alumno encuestador`), "3"))
+
+print("Cantidad de encuestas por integrante: ")
+custom_tags <- c("Hector", "Miguel", "Eduardo", "Rodrigo", "Fabricio")
+tag_values <- table(df_filtered$`Alumno encuestador`)
+
+for (i in seq_along(custom_tags)) {
+  cat(custom_tags[i], ":", tag_values[i], "\n")
+}
+total_value <- sum(tag_values)
+cat("Cantidad total de muestras :", total_value, "\n")
+cantidad_muestras_sin_na <- nrow(df_no_na)
+
+df_no_na <- na.omit(df_filtered)
+cat("Cantidad de muestras sin NAs :", cantidad_muestras_sin_na, "\n")
+```
 
 # III. Análisis descriptivo
 

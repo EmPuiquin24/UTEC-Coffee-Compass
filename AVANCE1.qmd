@@ -79,7 +79,7 @@ library(ggplot2)
 ### Miscelánea
 
 ```{r}
-df <- read_csv("Café (respuestas).csv")
+df <- read_csv("Café (respuestas) - Respuestas de formulario 1(2).csv")
 df
 df_filtered <- df %>% filter(str_starts(as.character(`Alumno encuestador`), "3"))
 
