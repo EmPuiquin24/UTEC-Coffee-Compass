@@ -84,9 +84,9 @@ Este proyecto cuenta con un objetivo general (el cual fue acordado por la secci�
 
 ## 3.2 Objetivos específicos
 
-### 1. Explorar la relación entre el consumo de café y el rendimiento académico en los estudiantes de pregrado de la Universidad de Ingeniería y Tecnología.
+### 1. Explorar la relación entre el consumo de café y el rendimiento académico en los estudiantes de pre-grado de la Universidad de Ingeniería y Tecnología.
 
-### 2. Explorar la relación económica entre el consumo de café y los estudiantes de pregrado de la Universidad de Ingeniería y Tecnología.
+### 2. Explorar la relación económica entre el consumo de café y los estudiantes de pre-grado de la Universidad de Ingeniería y Tecnología.
 
 # II. Datos
 
@@ -300,8 +300,157 @@ cat("Cantidad de muestras sin NAs :", cantidad_muestras_sin_na, "\n")
 
 # III. Análisis descriptivo
 
-## 1. Análisis variado
+# 1. Análisis variado
 
-## 2. Análisis de interacción
+Para esta parte primero haremos todas las variables relacionadas al objetivo 1: **Explorar la relación entre el consumo de café y el rendimiento académico en los estudiantes de pre-grado de la Universidad de Ingeniería y Tecnología.**
+
+Variables del objetivo 1:
+
+1.  **Tazas_por_día** (En promedio, ¿Cuántas tazas de café consumes en un día?)
+
+2.  **Rendimiento_con_café** (¿Cómo describirías tu rendimiento académico cuando consumes café?)
+
+3.  **Promedio_ponderado_2024_1** (Promedio ponderado en el ciclo 2024-1)
+
+    Ahora las clasificaremos en base a su tipo para ver que tipo de gráfico le corresponde a cada una:\
+
+    **Tazas_por_día** =\> **numérica continua** =\> **histograma**\
+    **Rendimiento_con_café** =\> **cualitativa ordinal** =\> **gráfico de barras**
+
+    **Promedio_ponderado_2024_1** =\> **numérica continua** =\> **histograma**
+
+Una vez ya asignado el tipo de gráfico, pasaremos al primer análisis:
+
+## 1. Análisis Tazas_por_día
+
+```{r}
+
+moda <- as.numeric(names(sort(table(DF2$Tazas_por_dia), decreasing = TRUE)[1]))
+promedio <- mean(DF2$Tazas_por_dia, na.rm = TRUE)
+mediana <- median(DF2$Tazas_por_dia, na.rm = TRUE)
+
+grafico_cafe <- ggplot(DF2, aes(x = Tazas_por_dia)) +
+  geom_histogram(binwidth = 1, fill = "steelblue", color = "white", alpha = 0.7) +
+  labs(title = "Consumo de café en alumnos UTEC en tazas diarias",
+       x = "Cantidad de tazas",
+       y = "Frecuencia dentro de la muestra") +
+  theme_minimal(base_size = 15) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),
+    axis.title.x = element_text(size = 14),
+    axis.title.y = element_text(size = 14),
+    axis.text = element_text(size = 12)
+  ) +
+  scale_x_continuous(breaks = seq(0, max(DF2$Tazas_por_dia, na.rm = TRUE), by = 1)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  geom_vline(aes(xintercept = moda), color = "red", linetype = "dashed", linewidth = 1) +   
+  geom_vline(aes(xintercept = promedio), color = "green", linetype = "dashed", linewidth = 1) +  
+  geom_vline(aes(xintercept = mediana), color = "blue", linetype = "dashed", linewidth = 1) +   
+  geom_text(aes(x = moda, y = max(table(DF2$Tazas_por_dia)) + 1, label = "Moda"), color = "red", vjust = +7.5, size = 5) +
+  geom_text(aes(x = promedio, y = max(table(DF2$Tazas_por_dia)) + 2, label = "Promedio"), color = "green", vjust = +13.5, size = 5) +
+  geom_text(aes(x = mediana, y = max(table(DF2$Tazas_por_dia)) + 3, label = "Mediana"), color = "blue", vjust = +10.5, size = 5)
+
+print(grafico_cafe)
+
+quantile(DF2$Tazas_por_dia, na.rm = TRUE)
+table(DF2$Tazas_por_dia)
+sum(!is.na(DF2$Tazas_por_dia))
+sum(is.na(DF2$Tazas_por_dia))
+round(9/1373*100, 2)
+round(mean(DF2$Tazas_por_dia, na.rm = TRUE), 2)
+round(sd(DF2$Tazas_por_dia, na.rm = TRUE)/mean(DF2$Tazas_por_dia, na.rm = TRUE)*100, 2)
+```
+
+**Análisis:**
+
+Se observa en el gráfico 1, que la frecuencia de las tazas es bastante asimétrica, siendo asimétrica hacia la derecha. En otras palabras, más del 50% de la muestra tiene un consumo de café menor o igual a la mediana, la cual es de 2 tazas por día, estando la variable muy poco dispersa. El promedio es algo mas alto que la mediana, siendo 2.23 tazas por alumno, debido a la presencia de personas que dijeron consumir 9 o mas tazas diarias (0.66%). A pesar de esto, el promedio no es significativamente mas grande que la mediana. Sin embargo, el CV es bastante grande (66.16%), por lo que el mejor descriptor para resumir el consumo de café sigue siendo la mediana. La moda se aleja significativamente de los otros dos descriptores, siendo de 1. En conclusión, podemos afirmar que la gran mayoría de alumnos que consumen café en UTEC suelen no consumir mas de 2 tazas, con lo mas común siendo que consuman solo 1, por lo que suele ser un consumo de café generalmente bajo y casual.
+
+## 2. Análisis Rendimiento_con_café
+
+```{r}
+DF2_sin_NA <- DF2 %>% filter(!is.na(Rendimiento_con_cafe))
+
+grafico_rendimiento_cafe <- ggplot(DF2_sin_NA, aes(x = Rendimiento_con_cafe)) +
+  geom_bar(fill = "steelblue", color = "white", alpha = 0.7) +
+  labs(title = "Rendimiento Académico de Alumnos de UTEC con Café",
+       x = "Calidad de rendimiento con Café",
+       y = "Frecuencia") +
+  theme_minimal(base_size = 15) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),
+    axis.title.x = element_text(size = 14),
+    axis.title.y = element_text(size = 14),
+    axis.text = element_text(size = 12)
+  ) +
+  scale_x_discrete(drop = FALSE) +  
+  scale_y_continuous(expand = c(0, 0)) + 
+  geom_text(stat = 'count', aes(label = ..count..), vjust = +1, size = 5)  
+
+print(grafico_rendimiento_cafe)
+794+205+106+317
+round(794/1422*100, 2)
+round(205/1422*100, 2)
+round(106/1422*100, 2)
+round(317/1422*100, 2)
+```
+
+**Análisis:**
+
+En el gráfico que representa el **rendimiento académico** de los alumnos de UTEC que consumen café, se observa una distribución clara y diferenciada de las categorías, ordenadas de mejor a menor rendimiento: "**excelente" (205), "bueno" (794), "regular" (317) y "puede mejorar" (106)**. Esta distribución muestra que la mayoría de los estudiantes perciben un rendimiento "**bueno"** al consumir café, siendo el **55.84%** del total. "**Regular"** ocupa el segundo lugar, siendo el **22.29%** del total, seguido por "**Excelente**" (**14.42%**) y **"Puede mejorar"** (**7.45%**). Tanto la **moda** como la **mediana** la pertenecen a "**bueno**", por lo que se puede decir que esta variable es concentrada en la **mediana**. En base a esta información, podemos concluir que el consumo de café se asocia predominantemente con un rendimiento académico bueno entre los estudiantes de UTEC, con una significativa cantidad que considera su rendimiento como excelente gracias al consumo de esta bebida.
+
+## 3. Análisis Promedio_ponderado_2024_1
+
+```{r}
+moda <- as.numeric(names(sort(table(DF2$Promedio_ponderado_2024_1), decreasing = TRUE)[1]))
+promedio <- mean(DF2$Promedio_ponderado_2024_1, na.rm = TRUE)
+mediana <- median(DF2$Promedio_ponderado_2024_1, na.rm = TRUE)
+
+grafico_promedio <- ggplot(DF2, aes(x = Promedio_ponderado_2024_1)) +
+  geom_histogram(binwidth = 1, fill = "steelblue", color = "white", alpha = 0.7) +
+  labs(title = "Promedio ponderado 2024-1 de alumnos UTEC",
+       x = "Promedio ponderado",
+       y = "Frecuencia dentro de la muestra") +
+  theme_minimal(base_size = 15) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),
+    axis.title.x = element_text(size = 14),
+    axis.title.y = element_text(size = 14),
+    axis.text = element_text(size = 12)
+  ) +
+  scale_x_continuous(breaks = seq(0, max(DF2$Promedio_ponderado_2024_1, na.rm = TRUE), by = 1)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  geom_vline(aes(xintercept = moda), color = "red", linetype = "dashed", linewidth = 1) +   
+  geom_vline(aes(xintercept = promedio), color = "green", linetype = "dashed", linewidth = 1) +  
+  geom_vline(aes(xintercept = mediana), color = "blue", linetype = "dashed", linewidth = 1) +   
+  geom_text(aes(x = moda, y = max(table(DF2$Promedio_ponderado_2024_1)) + 1, label = "Moda"), color = "red", vjust = +7.5, size = 5) +
+  geom_text(aes(x = promedio, y = max(table(DF2$Promedio_ponderado_2024_1)) + 2, label = "Promedio"), color = "green", vjust = +2.5, size = 5) +
+  geom_text(aes(x = mediana, y = max(table(DF2$Promedio_ponderado_2024_1)) + 3, label = "Mediana"), color = "blue", vjust = +4.5, size = 5)
+
+print(grafico_promedio)
+
+quantile(DF2$Promedio_ponderado_2024_1, na.rm = TRUE)
+
+max(table(DF2$Promedio_ponderado_2024_1))
+as.numeric(names(which.max(table(DF2$Promedio_ponderado_2024_1))))
+sum(!is.na(DF2$Promedio_ponderado_2024_1))
+sum(is.na(DF2$Promedio_ponderado_2024_1))
+sum(DF2$Promedio_ponderado_2024_1 < 10, na.rm = TRUE)
+round(19/1305*100, 2)
+round(mean(DF2$Promedio_ponderado_2024_1, na.rm = TRUE), 2)
+round(median(DF2$Promedio_ponderado_2024_1, na.rm = TRUE), 2)
+round(sd(DF2$Promedio_ponderado_2024_1, na.rm = TRUE)/mean(DF2$Promedio_ponderado_2024_1, na.rm = TRUE)*100, 2)
+round(123/1305*100, 2)
+sum(DF2$Promedio_ponderado_2024_1 >= (median(DF2$Promedio_ponderado_2024_1, na.rm = TRUE) - 2) & DF2$Promedio_ponderado_2024_1 <= (median(DF2$Promedio_ponderado_2024_1, na.rm = TRUE) + 2), na.rm = TRUE)
+round(992/1305*100, 2)
+
+
+
+```
+
+**Análisis:**
+
+Como podemos ver en el presente gráfico, la gráfica es asimétrica hacia la izquierda, con mas del 98% de los alumnos teniendo un promedio de igual a 10 o mayor (solo el 1.46% tiene menor a 10). Sin embargo, si restringimos el dominio a la mitad y solo nos enfocamos en la parte de 10 para arriba, nos daremos cuenta que la gráfica en ese segmento es relativamente simétrica, pues la mediana, la moda y el promedio se encuentran muy pegados. La moda en este caso es de 15 y representa el 9.43% de la muestra, mientras que el promedio es de 14.68 y la mediana de 14.95, todos siendo valores muy parecidos. La variable en general se encuentra muy concentrada alrededor de la mediana, estando el 76.02% de los datos en el rango de -2 a +2 de la mediana. Debido a esto, el coeficiente de variación también es mas bajo, siendo solo del 14.95%, por lo que el promedio es la mejor manera de describirla. En conclusión, podemos afirmar que la gran mayoría de alumnos de UTEC tienen un promedio de entre 13 y 17, siendo el mas común 15, lo que se encuentra dentro de los valores normales esperados por la universidad.
+
+# 2. Análisis de interacción
 
 # IIII. Conclusiones
