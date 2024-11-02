@@ -16,18 +16,39 @@ format:
 ---
 
 ```{r}
+instalar_si_no_existe <- function(paquete) {
+  if (!require(paquete, character.only = TRUE)) {
+    install.packages(paquete, dependencies = TRUE)
+  }
+  suppressPackageStartupMessages(invisible(library(paquete, character.only = TRUE)))
+}
 
-suppressPackageStartupMessages(library(readr))
-suppressPackageStartupMessages(library(plyr))
-suppressPackageStartupMessages(library(dplyr))
-suppressPackageStartupMessages(library(tidyr))
-suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(ggplot2))
-suppressPackageStartupMessages(library(lubridate))
-suppressPackageStartupMessages(library(ggalt))
-suppressPackageStartupMessages(library(scales))
+librerias <- c("readr", "plyr", "dplyr", "tidyr", "tidyverse", "ggplot2", "lubridate", "ggalt", "scales")
+
+suppressMessages(invisible(lapply(librerias, instalar_si_no_existe)))
+
+if (!require("conflicted")) {
+  install.packages("conflicted")
+}
+suppressPackageStartupMessages(invisible(library(conflicted)))
+
+invisible(conflict_prefer("arrange", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("count", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("desc", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("failwith", "plyr", quiet = TRUE))
+invisible(conflict_prefer("filter", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("id", "plyr", quiet = TRUE))
+invisible(conflict_prefer("lag", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("mutate", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("rename", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("summarise", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("summarize", "dplyr", quiet = TRUE))
+
+
 
 ```
+
+
 
 # I. Introducción
 
@@ -40,6 +61,8 @@ Este informe tiene como objetivo investigar el consumo de café entre los estudi
 ## 2. Planificación
 
 Se elaboro un diagrama donde se muestra como fue el proceso del desarrollo del proyecto:\
+
+
 
 ```{r}
 data <- data.frame(
@@ -76,6 +99,8 @@ ggplot(data, aes(x = Start, xend = End, y = Task, yend = Task, color = Color)) +
 
 
 ```
+
+
 
 ## 3. Objetivos
 
@@ -166,6 +191,8 @@ La limpieza fue realizada de la siguiente manera:\
 \
 Se importo el set de datos original y se creo otro solo las variables que son relevantes a nuestro objetivos llamado "DF2":
 
+
+
 ```{r}
 df <- read_csv("Café (respuestas) - Respuestas de formulario 1(2).csv", show_col_types = FALSE)
 DF2 <- df[, c("En promedio ¿Cuántas tazas de café consumes en un día?", "Si tuvieras que describir tu rendimiento académico cuando consumes café ¿Cómo sería?",
@@ -178,7 +205,11 @@ DF2 <- df[, c("En promedio ¿Cuántas tazas de café consumes en un día?", "Si 
 DF2
 ```
 
+
+
 Después, las variables de DF2 fueron cambiadas de nombre para simplificar su uso y entendimiento:
+
+
 
 ```{r}
 
@@ -194,11 +225,15 @@ colnames(DF2) <- c("Tazas_por_dia",
 DF2
 ```
 
+
+
 Ahora que ya tenemos el set de datos, procedemos a limpiar:
 
 ### **Variable 1: Tazas_por_día**
 
 la variable 1 fue limpiada usando el criterio de 10 tazas como máximo. Sin embargo, la variable esta en formato character en lugar de numérica, así que primero hay que transformarla. Después, usamos la función "ifelse" para filtrar todos los datos que no estén entre 1 y 10 y volverlos NAs.
+
+
 
 ```{r}
 DF2$Tazas_por_dia <- as.numeric(DF2$Tazas_por_dia)
@@ -208,6 +243,8 @@ DF2$Tazas_por_dia <- ifelse(DF2$Tazas_por_dia < 1 | DF2$Tazas_por_dia > 10, NA, 
 
 quantile(DF2$Tazas_por_dia, na.rm = TRUE)
 ```
+
+
 
 Como vemos ahora si tenemos un rango entre el 1 y el 10.
 
@@ -219,6 +256,8 @@ Debido a que esta variable fue una opción para marcar, ya esta limpia.
 
 Para limpiar esta variable debemos crear un rango entre 20 y 0. Sin embargo, al igual que la variable 1, promedio se encuentra erróneamente denominada como character en lugar de numérica, por lo que primero la convertiremos. Después, usamos "ifelse" y reemplazamos todos los valores mayores a 20 por NAs.
 
+
+
 ```{r}
 DF2$Promedio_ponderado_2024_1 <- as.numeric(DF2$Promedio_ponderado_2024_1)
 
@@ -226,6 +265,8 @@ DF2$Promedio_ponderado_2024_1 <- ifelse(DF2$Promedio_ponderado_2024_1 < 0 | DF2$
 
 quantile(DF2$Promedio_ponderado_2024_1, na.rm = TRUE)
 ```
+
+
 
 Como vemos tenemos un rango del 0 al 20, que esta dentro de lo esperado
 
@@ -237,10 +278,14 @@ Al igual que la variable 2, debido a que fue una opción para marcar, esta limpi
 
 Esta variable fue limpiada al establecer como valor máximo a los 200 soles, al ser el criterio que empleamos como gasto máximo. Usando ifelse reemplazaremos todos los valores mayores a 200 por NAs.
 
+
+
 ```{r}
 DF2$Gasto_semanal_cafe <- ifelse(DF2$Gasto_semanal_cafe > 200, NA, DF2$Gasto_semanal_cafe)
 quantile(DF2$Gasto_semanal_cafe, na.rm = TRUE)
 ```
+
+
 
 Como vemos tenemos un rango de 0 a 200 (asumiendo que los que gastan 0 preparan su propio café), estando dentro de lo esperado.
 
@@ -252,11 +297,17 @@ Al igual que la variable 2 y 4, al ser una opción para marcar, esta limpia.
 
 Una vez ya limpiado el set de datos de las variables que vamos a usar, nos queda la siguiente tabla prolija.
 
+
+
 ```{r}
 DF2
 ```
 
+
+
 Ahora procedemos a contar el valor efectivo de cada una de las variables en relación al numero de muestras totales, su cantidad de NAs y el porcentaje de NAs de cada uno.
+
+
 
 ```{r}
 data.frame(
@@ -267,9 +318,13 @@ Porcentaje_NA = round(sapply(DF2, function(columna) sum(is.na(columna)))
 /2047*100, 2))
 ```
 
+
+
 Como vemos la mayoría de las variables cuentan con un porcentaje de NAs del 0.05% al 36.25% y un tamaño efectivo del 99.95% al 63.75% , lo cual sigue siendo aceptable.
 
 En cuanto a la recolección de datos, nuestro grupo si llego a los 150 de fuente primaria datos sin NAs como se puede ver aquí:
+
+
 
 ```{r}
 df_filtered <- df %>% filter(str_starts(as.character(`Alumno encuestador`), "3"))
@@ -289,6 +344,8 @@ cantidad_muestras_sin_na <- nrow(df_no_na)
 cat("Cantidad de muestras sin NAs :", cantidad_muestras_sin_na, "\n")
 ```
 
+
+
 # III. Análisis descriptivo
 
 ## 1. Análisis variado
@@ -302,6 +359,8 @@ Para esta parte primero haremos todas las variables relacionadas al objetivo 1:\
 Una vez ya asignado el tipo de gráfico, pasaremos al primer análisis:
 
 ### 1. Análisis Tazas_por_día
+
+
 
 ```{r}
 DF2_limpio <- DF2 %>% filter(!is.na(Tazas_por_dia))
@@ -351,11 +410,15 @@ cat(
 )
 ```
 
+
+
 **Análisis:**
 
 Se observa en el gráfico 1 que la frecuencia de las tazas es bastante asimétrica, siendo asimétrica hacia la derecha. En otras palabras, más del 50% de la muestra tiene un consumo de café menor o igual a la mediana, la cual es de 2 tazas, y la variable es poco dispersa. El promedio es algo más alto que la mediana (2.23), debido a la presencia de personas que dijeron consumir 9 o más tazas diarias (0.66%). A pesar de esto, el promedio no es significativamente más grande que la mediana. Sin embargo, el coeficiente de variación es alto (63.42%), por lo que el mejor descriptor es la mediana. Por otro lado, la moda (1) se aleja significativamente de los otros dos descriptores. Podemos afirmar que la mayoría de estudiantes de la UTEC no suelen consumir más de 2 tazas al día, siendo lo más común el consumo de una taza, lo que corresponde a un consumo generalmente bajo y casual.
 
 ### 2. Análisis Rendimiento_con_café
+
+
 
 ```{r}
 DF2_sin_NA <- DF2 %>% filter(!is.na(Rendimiento_con_cafe))
@@ -393,11 +456,15 @@ cat(
 )
 ```
 
+
+
 **Análisis:**
 
 En el gráfico que representa el **rendimiento académico** de los alumnos de UTEC que consumen café, se observa una distribución diferenciada de las categorías, ordenadas de mejor a menor rendimiento: "Excelente" (205), "Bueno" (794), "Regular" (317) y "Puede mejorar" (106). Esta distribución muestra que la mayoría de estudiantes perciben un rendimiento "Bueno" al consumir café, siendo la moda (55.84%). "Regular" ocupa el segundo lugar (22.29%), seguido por "Excelente" (14.42%) y, por último, "Puede mejorar"(7.45%). En base a esta información, podemos concluir que el consumo de café se asocia predominantemente con un buen rendimiento entre los estudiantes de UTEC, con una cantidad significativa que considera su rendimiento como excelente.
 
 ### 3. Análisis Promedio_ponderado_2024_1
+
+
 
 ```{r}
 DF2_limpio <- DF2 %>% filter(!is.na(Promedio_ponderado_2024_1))
@@ -459,6 +526,8 @@ cat(
 )
 ```
 
+
+
 **Análisis:**
 
 Como podemos ver en el presente gráfico, este es asimétrico hacia la izquierda, con más del 98% de los alumnos con un promedio mayor o igual a 10 (solo el 1.46% tiene menos de 10). Sin embargo, si restringimos el dominio a la mitad y nos enfocamos en la parte mayor a 10, notamos que en ese segmento la gráfica es relativamente simétrica, ya que la mediana, la moda y el promedio están muy cerca. La moda es 15, lo que representa el 9.43% de la muestra, mientras que el promedio y la mediana son 14.68 y 14.95, respectivamente. La variable se encuentra muy concentrada alrededor de la mediana, con el 76.02% de los datos en el rango de -2 a +2 a partir de la mediana. Debido a esto, el coeficiente de variación también es bajo (14.89%), por lo que el promedio es el mejor descriptor. La gran mayoría de los alumnos tiene un promedio de entre 13 y 17, lo que se encuentra dentro de lo esperado.
@@ -472,6 +541,8 @@ Como podemos ver en el presente gráfico, este es asimétrico hacia la izquierda
 **Lugar_compra_café** =\>**cualitativa nominal** =\> **Gráfico de barras**
 
 ### 4. Análisis Apoyo_económico
+
+
 
 ```{r}
 DF2_sin_NA <- DF2 %>% filter(!is.na(Apoyo_economico))
@@ -502,11 +573,15 @@ cat(
 
 ```
 
+
+
 **Análisis**:
 
 En este gráfico, que representa el *tipo de ayuda económica* de los alumnos de UTEC, se observa una clara diferenciación en las categorías de ayuda económica, ordenadas de mayor a menor frecuencia: "Ninguno" (1344), "Beca" (451), "Semi-beca" (251). Esta distribución muestra que la mayoría de los estudiantes no reciben ningún apoyo económico (65.69%). La opción "Beca" ocupa el segundo lugar (22.04%), seguida finalmente por "Semi-beca" (12.27%). La moda indica que la mayoría de los estudiantes entrevistados que consumen café no poseen ningún tipo de beca académica en la UTEC.
 
 ### 5. Análisis Gasto_semanal_café
+
+
 
 ```{r}
 DF2_limpio <- DF2 %>% filter(!is.na(Gasto_semanal_cafe))
@@ -557,11 +632,15 @@ cat(
 
 ```
 
+
+
 **Análisis:**
 
 Se observa en el gráfico que la distribución del gasto semanal en café de los estudiantes de UTEC es claramente asimétrica hacia la derecha. Más del 50% de la muestra gasta menos o igual a la mediana (14) lo que indica un consumo moderado entre la mayoría. El promedio de gasto es significativamente más alto, con 19.29 soles, debido a la presencia de algunos estudiantes que reportan gastar más, como aquellos que gastan 40 soles o más (15.4% de las muestras en total). A pesar de esta diferencia, el promedio no se aleja mucho de la mediana. Sin embargo, el coeficiente de variación (115.95%) indica una alta dispersión en los datos, sugiriendo que el gasto varía considerablemente entre los estudiantes. La moda (10) se encuentra alejada de los otros dos descriptores. En conclusión, la mayoría de los estudiantes suelen gastar menos de 10 soles por semana, con un patrón de gasto bajo, aunque existen algunos casos extremos que elevan el promedio.
 
 ### 6. Análisis Lugar_compra_café
+
+
 
 ```{r}
 DF2_sin_NA <- DF2 %>% filter(!is.na(Lugar_compra_cafe))
@@ -594,6 +673,8 @@ for (lugar in names(lugares)) {
 
 ```
 
+
+
 **Análisis**:
 
 El gráfico de la variable "Lugar_compra_café" revela diferencias significativas en los establecimientos donde los estudiantes adquieren su café. La opción más popular es "Hago mi propio café" con 616 respuestas, lo que representa el 43.41% de la muestra. Sin embargo, más de la mitad de los estudiantes (56.59%) optan por comprar café en otros lugares; dentro de este grupo, el 28.54% compra su café en bodegas como Listo y Tambo, mientras que un 15.5% lo hace en Starbucks, lo cual resulta sorprendente dado el alto costo de sus productos. Las cafeterías artesanales ocupan el último lugar con un 12.54%, probablemente debido a su menor disponibilidad y reconocimiento en comparación con las otras opciones. Los resultados indican que la mayoría de los alumnos de UTEC prefieren comprar su café, reflejando una tendencia hacia la practicad.
@@ -605,6 +686,8 @@ Una vez analizadas las variables, el siguiente paso es explorar su relación. En
 Para el objetivo 2, nuestra hipótesis se centra en la relación entre el estatus económico del alumno (a través del apoyo económico) y su gasto en café y lugar de compra. Se plantea que los alumnos con menos dificultades económicas gastarán más en café y preferirán comprarlo en lugares exclusivos. Formaremos dos grupos basados en el apoyo económico: no becados y becados, analizando su gasto semanal y los lugares de compra, anticipando que los no becados tendrán un mayor gasto y preferirán comprar café en lugar de prepararlo en casa.
 
 ### Análisis objetivo 1:
+
+
 
 ```{r}
 DF2 <- DF2 %>%
@@ -657,11 +740,15 @@ cat(
 
 ```
 
+
+
 **Análisis:**
 
 Como podemos ver, el gráfico 1 (grupo de entre 1 y 2 tazas) y el gráfico 2 (grupo de entre 3 o más tazas) son significativamente diferentes. Si bien la moda en ambos es el rendimiento tipo "Bueno" (57.11% en el gráfico 1, 55.66% en el gráfico 2), el porcentaje de alumnos con rendimiento "Excelente" es muchísimo más alto en el gráfico 2, siendo del 21.46%, mientras que el porcentaje de alumnos con rendimiento "Excelente" en el gráfico 1 es apenas del 11.17%. En otras palabras, los alumnos que toman 3 o más tazas de café al día tienen, en proporción al tamaño de su grupo, unas 2 veces más personas con rendimiento excelente en comparación con los alumnos que solo toman de 1 a 2 tazas de café al día. En cuanto al porcentaje de alumnos con rendimiento "Regular", este es significativamente más bajo en el gráfico 2, siendo solo del 17.69%, mientras que en el gráfico 1 es del 23.71%.
 
 En base a esto, podemos decir que la hipótesis, al menos en el contexto de esta variable, pues hay una cierta relación directamente proporcional entre mayor consumo de café y mejor rendimiento académico, al menos el percibido.
+
+
 
 ```{r}
 DF2_filtrado <- DF2 %>%
@@ -713,11 +800,15 @@ cat(
 
 ```
 
+
+
 **Análisis:**
 
 Los resultados entre ambos grupos son muy similares, lo que contradice la idea de que un mayor consumo de café mejora el rendimiento académico. La moda es casi idéntica (15 en el grupo de 1-2 tazas y 14.88 en el de 3 o más), al igual que el promedio (14.67 y 14.66, respectivamente) y la mediana (15 y 14.88). Los cuantiles también muestran rangos similares, indicando que la distribución central de los promedios es prácticamente la misma en ambos grupos. Además, el coeficiente de relación obtenido (0.00033) es extremadamente bajo, lo que indica una correlación prácticamente inexistente entre el consumo de café y el rendimiento académico, lo que contradice los resultados de la variable anterior.
 
 ### Análisis objetivo 2:
+
+
 
 ```{r}
 
@@ -785,9 +876,13 @@ cat(
 
 ```
 
+
+
 **Análisis**:
 
 Los resultados del gasto semanal en café entre los grupos "Ninguno" y "Beca" muestran diferencias notables. En el grupo "Ninguno", la moda es de 10 soles, con una mediana de 15 soles y un promedio considerablemente más alto de 20.88 soles. Esto sugiere que, aunque la mayoría de los estudiantes gasta alrededor de 10 soles, hay algunos que gastan mucho más, lo que eleva el promedio. Los cuantiles refuerzan esto, con el 25% de los estudiantes gastando hasta 6 soles y el 75% hasta 30 soles. En contraste, el grupo "Beca" tiene una moda más baja de 5 soles, una mediana de 10 soles y un promedio también más bajo de 13.55 soles. Esto indica que los estudiantes con beca tienden a gastar menos en café en promedio. Además, el 50% de los estudiantes becados gasta entre 5 y 20 soles. En resumen, los estudiantes sin apoyo económico tienden a gastar más en café, lo que podría estar relacionado con su capacidad económica.
+
+
 
 ```{r}
 datos_combinados <- DF2 %>%
@@ -827,6 +922,8 @@ cat(
 )
 ```
 
+
+
 **Análisis**:
 
 Al analizar los resultados de los grupos becados y no becados en relación con dónde compran su café, observamos algunas diferencias interesantes. En ambos grupos, la moda es que los estudiantes prefieren hacer su propio café: el 45.34% en el grupo de becados y el 43.29% en el grupo sin beca, lo que refleja una preferencia similar. Sin embargo, entre los que compran su café, que en ambos grupos son la mayoría, los becados optan más frecuentemente por "Bodegas" (28.94%) en comparación con los no becados (27.71%). Hay una diferencia importante en el consumo de Starbucks, siendo la opción del 16.88% de los no becados frente al 12.54% de los becados. Esto podría reflejar una diferencia en poder adquisitivo. En cuanto a las "Cafeterías artesanales", ambos grupos muestran porcentajes bajos, siendo ligeramente más común entre los becados (13.18%) que entre los no becados (12.12%). En resumen, los estudiantes sin beca parecen estar en condiciones de gastar más, mientras que los becados, aunque siguen la misma tendencia general: opciones más asequibles.
@@ -834,3 +931,4 @@ Al analizar los resultados de los grupos becados y no becados en relación con d
 # IIII. Conclusiones
 
 En nuestra investigación sobre el consumo de café entre los estudiantes de UTEC y su relación con el rendimiento académico y el impacto económico, destacamos que la mayoría de los estudiantes perciben un rendimiento "bueno" al consumir café, aunque no encontramos una correlación significativa entre el consumo de café y las calificaciones reales. Sin embargo, observamos que los estudiantes que consumen más de 3 tazas al día tienden a reportar un mayor rendimiento percibido. Económicamente, los estudiantes sin apoyo financiero gastan más en café, con una mayor inclinación a comprar en lugares más caros, como Starbucks, lo que sugiere diferencias en poder adquisitivo.
+

@@ -16,16 +16,35 @@ format:
 ---
 
 ```{r}
+instalar_si_no_existe <- function(paquete) {
+  if (!require(paquete, character.only = TRUE)) {
+    install.packages(paquete, dependencies = TRUE)
+  }
+  suppressPackageStartupMessages(invisible(library(paquete, character.only = TRUE)))
+}
 
-suppressPackageStartupMessages(library(readr))
-suppressPackageStartupMessages(library(plyr))
-suppressPackageStartupMessages(library(dplyr))
-suppressPackageStartupMessages(library(tidyr))
-suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(ggplot2))
-suppressPackageStartupMessages(library(lubridate))
-suppressPackageStartupMessages(library(ggalt))
-suppressPackageStartupMessages(library(scales))
+librerias <- c("readr", "plyr", "dplyr", "tidyr", "tidyverse", "ggplot2", "lubridate", "ggalt", "scales")
+
+suppressMessages(invisible(lapply(librerias, instalar_si_no_existe)))
+
+if (!require("conflicted")) {
+  install.packages("conflicted")
+}
+suppressPackageStartupMessages(invisible(library(conflicted)))
+
+invisible(conflict_prefer("arrange", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("count", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("desc", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("failwith", "plyr", quiet = TRUE))
+invisible(conflict_prefer("filter", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("id", "plyr", quiet = TRUE))
+invisible(conflict_prefer("lag", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("mutate", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("rename", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("summarise", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("summarize", "dplyr", quiet = TRUE))
+
+
 
 ```
 
