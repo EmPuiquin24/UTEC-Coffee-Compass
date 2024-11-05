@@ -1,0 +1,516 @@
+---
+title: "Presentacion acerca del consumo del café en estudiantes UTEC durante el ciclo 2024 - 2"
+author: 
+  - Miguel Edison Alania Huillca
+  - Rodrigo Andrés Tassara Acosta
+  - Fabricio Alberto Olagibel Romero
+  - Isaac Eduardo Trinidad Leiva
+  - Hector Emilio Huaman Puiquin (Lider)
+toc: true
+toc-title: "Indice"
+
+embed-resources: true
+format: 
+  html:
+    self-contained: true
+---
+
+```{r}
+instalar_si_no_existe <- function(paquete) {
+  if (!require(paquete, character.only = TRUE)) {
+    install.packages(paquete, dependencies = TRUE)
+  }
+  suppressPackageStartupMessages(invisible(library(paquete, character.only = TRUE)))
+}
+
+librerias <- c("readr", "plyr", "dplyr", "tidyr", "tidyverse", "ggplot2", "lubridate", "ggalt", "scales")
+
+suppressMessages(invisible(lapply(librerias, instalar_si_no_existe)))
+
+if (!require("conflicted")) {
+  install.packages("conflicted")
+}
+suppressPackageStartupMessages(invisible(library(conflicted)))
+
+invisible(conflict_prefer("arrange", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("count", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("desc", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("failwith", "plyr", quiet = TRUE))
+invisible(conflict_prefer("filter", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("id", "plyr", quiet = TRUE))
+invisible(conflict_prefer("lag", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("mutate", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("rename", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("summarise", "dplyr", quiet = TRUE))
+invisible(conflict_prefer("summarize", "dplyr", quiet = TRUE))
+```
+
+```{r}
+df <- read_csv("LimpioCafe.csv")
+df
+```
+
+## Variable 1: Tazas_por_día: X ∈ 0\<X\<=10 -\> numérica discreta
+
+```{r}
+table(df$Tazas_por_dia)
+sum(complete.cases(df$Tazas_por_dia))
+```
+
+### **Numero de tazas por día**:
+
+{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}.
+
+### **Experimento Aleatorio 1**:
+
+Seleccionar una persona al azar del estudio "Análisis del consumo de café en los estudiantes UTEC en el ciclo 2024-2" y observar cuantas tazas de café consume por día.
+
+### **Eventos Atómicos:**
+
+**1:** Seleccionar una persona al azar del estudio que tome en promedio 1 taza de café al día.
+
+**2:** Seleccionar una persona al azar del estudio que tome en promedio 2 tazas de café al día.
+
+**3:** Seleccionar una persona al azar del estudio que tome en promedio 3 tazas de café al día.
+
+**4:** Seleccionar una persona al azar del estudio que tome en promedio 4 tazas de café al día.
+
+**5:** Seleccionar una persona al azar del estudio que tome en promedio 5 tres tazas de café al día.
+
+**6:** Seleccionar una persona al azar del estudio que tome en promedio 6 tazas de café al día.
+
+**7:** Seleccionar una persona al azar del estudio que tome en promedio 7 tazas de café al día.
+
+**8:** Seleccionar una persona al azar del estudio que tome en promedio 8 tazas de café al día.
+
+**9:** Seleccionar una persona al azar del estudio que tome en promedio 9 tazas de café al día.
+
+**10:** Seleccionar una persona al azar del estudio que tome en promedio 10 tazas de café al día.
+
+### Probabilidades:
+
+**P(1): 487/1373**
+
+**P(2): 462/1373**
+
+**P(3): 231/1373**
+
+**P(4): 103/1373\
+\
+P(5): 43/1373\
+\
+P(6): 24/1373\
+\
+P(7): 9/1373**
+
+**P(8): 5/1373**
+
+**P(9): 4/1373**
+
+**P(10): 5/1373**
+
+### Comprobación:
+
+**P(1) + P(2) + P(3) + P(4) + P(5) + P(6) + P(7) + P(8) + P(9) + P(10) = 487/1373 + 462/1373 + 231/1373 + 103/1373 + 43/1373 + 24/1373 + 9/1373 + 5/1373 + 4/1373 + 5/1373 = 1373**
+
+## Variable 2: Rendimiento_con_café: {Puede Mejorar, Regular, Bueno, Excelente} -\> Nominal Ordinal
+
+```{r}
+table(df$Rendimiento_con_cafe)
+sum(complete.cases(df$Rendimiento_con_cafe))
+```
+
+Puede Mejorar: 106; Regular: 317; Bueno: 794; Excelente: 205
+
+### **Evento Aleatorio 2:**
+
+Seleccionar una persona al azar del estudio "Análisis del consumo de café en los estudiantes UTEC en el ciclo 2024-2" y observar su rendimiento académico al tomar café.
+
+### Eventos Atómicos:
+
+**Puede Mejorar**: Seleccionar una persona al azar del estudio que califique a su rendimiento como "Puede Mejorar".
+
+**Regular**: Seleccionar una persona al azar del estudio que califique a su rendimiento como regular.
+
+**Bueno**: Seleccionar una persona al azar del estudio que califique a su rendimiento como bueno.
+
+**Excelente**: Seleccionar una persona al azar del estudio que califique a su rendimiento como excelente.
+
+### **Probabilidades:**
+
+**P(Puede Mejorar): 106/1422**
+
+**P(Regular): 317/1422**
+
+**P(Bueno): 794/1422**
+
+**P(Excelente): 205/1422**
+
+### Comprobación:
+
+**P(Puede Mejorar) + P(Regular) + P(Bueno) + P(Excelente)** = **106/1422 + 317/1422 + 794/1422** + **205/1422 = 1422**
+
+## Variable 3: Promedio_ponderado: X ∈ 0\<=X\<=20 -\> numérica discreta
+
+Promedio: {\[1,10\>,\[10,13\>,\[13,16\>,\[16, 20}\
+Promedio: {Malo, Regular, Bueno, Excelente}
+
+```{r}
+df$Clasificacion <- cut(df$Promedio_ponderado_2024_1,
+                        breaks = c(0, 10, 13, 16, 20),
+                        labels = c("Malo", "Regular", "Bueno", "Excelente"),
+                        right = FALSE)  
+
+conteo <- table(df$Clasificacion)
+print(conteo)
+
+total <- sum(conteo)
+cat("Total de valores:", total, "\n")
+```
+
+### **Experimento Aleatorio 3:**
+
+Seleccionar un promedio al azar del estudio "Análisis del consumo de café en los estudiantes UTEC en el ciclo 2024-2" y observar su cantidad de puntos.
+
+### Eventos Atómicos:
+
+**Malo**: Seleccionar un promedio al azar del estudio cuyo numero de puntos sea malo.\
+**Regular**: Seleccionar un promedio al azar del estudio cuyo numero de puntos sea regular.
+
+**Bueno**: Seleccionar un promedio al azar del estudio cuyo numero de puntos sea bueno.\
+**Excelente**: Seleccionar un promedio al azar del estudio cuyo numero de puntos sea excelente.
+
+### Probabilidades:
+
+**P(Malo): 19/1301\
+P(Regular): 134/1301\
+P(Bueno): 783/1301\
+P(Excelente): 365/1301**
+
+### Comprobación:
+
+**P(Malo) + P(Regular) + P(Bueno) + P(Excelente) = 19/1301 + 134/1301 + 783/1301 + 365/1301 = 1301**
+
+## Variable 4: Gasto_semanal_cafe: X ∈ 0\<=X\<=200 -\> numérica discreta
+
+Promedio: {\[0,10\>,\[10,40\>,\[40,80\>,\[80, 200}\
+Promedio: {bajo, medio, alto, muy_alto}
+
+```{r}
+df$GastoCafe <- cut(df$Gasto_semanal_cafe,
+                        breaks = c(0, 10, 40, 80, 200),
+                        labels = c("Bajo", "Medio", "Alto", "Muy_Alto"),
+                        right = FALSE)  
+
+conteo <- table(df$GastoCafe)
+print(conteo)
+total <- sum(conteo)
+cat("Total de valores:", total, "\n")
+
+
+```
+
+### **Experimento Aleatorio 3:**
+
+Seleccionar un gasto en café al azar del estudio "Análisis del consumo de café en los estudiantes UTEC en el ciclo 2024-2" y observar su valor monetario.
+
+### Eventos Atómicos:
+
+**Bajo**: Seleccionar un gasto al azar del estudio cuyo valor monetario sea bajo.\
+**Medio**: Seleccionar un gasto al azar del estudio cuyo valor monetario sea regular.
+
+**Alto**: Seleccionar un gasto al azar del estudio cuyo valor monetario sea alto.\
+**Muy_Alto**: Seleccionar un gasto al azar del estudio cuyo valor monetario sea muy alto.
+
+### Probabilidades:
+
+**P(Bajo): 483/1410\
+P(Medio): 731/1410**
+
+**P(Alto): 168/1410\
+P(Muy_Alto): 28/1410**
+
+### Comprobación:
+
+**P(Bajo) + P(Medio) + P(Alto) + P(Muy_Alto) = 483/1410 + 731/1410 + 168/1410 + 28/1410 = 1410**
+
+## Eventos simples y compuestos
+
+### Eventos Simples
+
+1.  **Evento Simple 1(E1)**: Seleccionar una persona al azar del estudio que consuma exactamente 2 tazas de café al día.
+
+    ```{r}
+    df_filtrado <- na.omit(df)
+    P_E1 <- length(which(df_filtrado$Tazas_por_dia == 2)) / length(df_filtrado$Tazas_por_dia)
+    cat("Probabilidad de E1 (2 tazas de café al día):", round(P_E1, 2), "\n")
+
+    ```
+
+2.  **Evento Simple 2 (E2)**: Seleccionar una persona al azar del estudio que califique su rendimiento académico como "Bueno".
+
+    ```{r}
+    P_E2 <- length(which(df_filtrado$Rendimiento_con_cafe == "Bueno")) / length(df_filtrado$Rendimiento_con_cafe)
+    cat("Probabilidad de E2 (rendimiento académico 'Bueno'):", round(P_E2, 2), "\n")
+    ```
+
+3.  **Evento Simple 3 (E3)**: Seleccionar una persona al azar del estudio cuyo promedio ponderado se clasifique como "Bueno".
+
+    ```{r}
+    df_filtrado$Clasificacion <- cut(df_filtrado$Promedio_ponderado_2024_1,
+                                     breaks = c(0, 10, 13, 16, 20),
+                                     labels = c("Malo", "Regular", "Bueno", "Excelente"),
+                                     right = FALSE)
+
+    P_E3 <- length(which(df_filtrado$Clasificacion == "Bueno")) / length(df_filtrado$Clasificacion)
+    cat("Probabilidad de E3 (promedio ponderado 'Bueno'):", round(P_E3, 2), "\n")
+    ```
+
+### Evento compuesto del evento 1 y evento 2:
+
+1.  Seleccionar una persona al azar del estudio que consuma exactamente 2 tazas de café al día y perciba su rendimiento como "bueno".
+
+```{r}
+P_E1 <- length(which(df_filtrado$Tazas_por_dia == 2)) / length(df_filtrado$Tazas_por_dia)
+P_E2 <- length(which(df_filtrado$Rendimiento_con_cafe == "Bueno")) / length(df_filtrado$Rendimiento_con_cafe)
+
+P_E1_E2 <- length(which(df_filtrado$Tazas_por_dia == 2 & df_filtrado$Rendimiento_con_cafe == "Bueno")) / length(df_filtrado$Tazas_por_dia)
+
+independencia <- P_E1 * P_E2
+
+cat("P(E1):", round(P_E1, 2), "\n")
+cat("P(E2):", round(P_E2, 2), "\n")
+cat("P(E1 ∩ E2):", round(P_E1_E2, 2), "\n")
+cat("P(E1) * P(E2):", round(independencia, 2), "\n")
+
+if (round(P_E1_E2, 2) == round(independencia, 2)) {
+  cat("E1 y E2 son independientes.\n")
+} else {
+  cat("E1 y E2 son dependientes.\n")
+}
+
+P_E1_given_E2 <- P_E1_E2 / P_E2
+cat("P(E1 | E2):", round(P_E1_given_E2, 2), "\n")
+
+P_E2_given_E1 <- (P_E1_given_E2 * P_E2) / ((P_E1_given_E2 * P_E2) + ((1 - P_E1_given_E2) * (1 - P_E2)))
+cat("P(E2 | E1) usando Bayes:", round(P_E2_given_E1, 2), "\n")
+
+```
+
+Conclusión en el contexto del caso:\
+
+La relación entre el consumo de 2 tazas de café al día y el rendimiento académico percibido por los estudiantes indica que **E1 y E2 son dependientes**. Esto sugiere que existe una correlación entre la cantidad de café consumido y la forma en que los estudiantes valoran su propio rendimiento académico. Sin embargo, es fundamental considerar que el rendimiento percibido no siempre se alinea con el rendimiento real. Es posible que los estudiantes que consumen café tiendan a sobrestimar o subestimar su rendimiento en función de su estado de alerta y concentración, lo que nos lleva a la necesidad de un análisis más profundo que distinga entre estas dos dimensiones.
+
+### Evento compuesto del evento 1 y evento 3:
+
+1.  Seleccionar una persona al azar del estudio que consuma exactamente 2 tazas de café al día y tenga un promedio de cantidad de puntos "excelente" (de 16 puntos para arriba).
+
+```{r}
+df_filtrado$Clasificacion <- cut(df_filtrado$Promedio_ponderado_2024_1,
+                                  breaks = c(0, 10, 13, 16, 20),
+                                  labels = c("Malo", "Regular", "Bueno", "Excelente"),
+                                  right = FALSE)
+
+P_E1 <- length(which(df_filtrado$Tazas_por_dia == 2)) / length(df_filtrado$Tazas_por_dia)
+P_E3 <- length(which(df_filtrado$Clasificacion == "Bueno")) / length(df_filtrado$Clasificacion)
+
+P_E1_E3 <- length(which(df_filtrado$Tazas_por_dia == 2 & df_filtrado$Clasificacion == "Bueno")) / length(df_filtrado$Tazas_por_dia)
+
+independencia <- P_E1 * P_E3
+
+cat("P(E1):", round(P_E1, 2), "\n")
+cat("P(E3):", round(P_E3, 2), "\n")
+cat("P(E1 ∩ E3):", round(P_E1_E3, 2), "\n")
+cat("P(E1) * P(E3):", round(independencia, 2), "\n")
+
+if (round(P_E1_E3, 2) == round(independencia, 2)) {
+  cat("E1 y E3 son independientes.\n")
+} else {
+  cat("E1 y E3 son dependientes.\n")
+}
+
+P_E1_given_E3 <- P_E1_E3 / P_E3
+cat("P(E1 | E3):", round(P_E1_given_E3, 2), "\n")
+
+P_E3_given_E1 <- (P_E1_given_E3 * P_E3) / ((P_E1_given_E3 * P_E3) + ((1 - P_E1_given_E3) * (1 - P_E3)))
+cat("P(E3 | E1) usando Bayes:", round(P_E3_given_E1, 2), "\n")
+
+```
+
+Conclusión en el contexto del caso:
+
+La independencia entre el consumo de 2 tazas de café al día y la clasificación del promedio ponderado como "Excelente" indica que **E1 y E3 son independientes**. Esto sugiere que el rendimiento académico real de los estudiantes, medido a través de su promedio ponderado, no se ve afectado de manera significativa por la cantidad de café consumido. Este hallazgo resalta la diferencia crítica entre el rendimiento académico percibido (E2) y el rendimiento académico real (E3). Mientras que el consumo de café puede influir en la percepción de los estudiantes sobre su rendimiento, no se traduce necesariamente en una mejora tangible en sus calificaciones. Este aspecto subraya la importancia de evaluar el rendimiento académico a través de métricas objetivas y no basarse únicamente en las percepciones individuales de los estudiantes, que pueden ser influenciadas por factores externos, como el consumo de café. Podríamos hasta decir que el consumo de café (en el caso de la probabilidad de E2 tiende a hacer que los estudiantes se sobrevolaren y piensen que les esta yendo mejor de lo que de verdad les va.
+
+## Evento Compuestos
+
+4.  **Evento Compuesto (E4)**: Seleccionar una persona al azar del estudio que consuma entre 4 y 6 tazas de café al día y que califique su rendimiento académico como "Excelente".
+
+**#definición**
+
+**E4**: A ∩ B\
+\
+Donde
+
+A: Seleccionar una persona al azar del estudio que consuma entre 4 y 6 tazas de café al día.\
+B: Seleccionar una persona al azar del estudio que califique su rendimiento académico como "Excelente".
+
+```{r}
+P_A <- length(which(df_filtrado$Tazas_por_dia >= 4 & df_filtrado$Tazas_por_dia <= 6)) / length(df_filtrado$Tazas_por_dia)
+
+P_B <- length(which(df_filtrado$Rendimiento_con_cafe == "Excelente")) / length(df_filtrado$Rendimiento_con_cafe)
+
+P_A_and_B <- length(which(df_filtrado$Tazas_por_dia >= 4 & df_filtrado$Tazas_por_dia <= 6 & df_filtrado$Rendimiento_con_cafe == "Excelente")) / length(df_filtrado$Rendimiento_con_cafe)
+
+independencia <- P_A * P_B
+
+cat("P(A):", round(P_A, 2), "\n")
+cat("P(B):", round(P_B, 2), "\n")
+cat("P(A ∩ B):", round(P_A_and_B, 2), "\n")
+cat("P(A) * P(B):", round(independencia, 2), "\n")
+
+if (round(P_A_and_B, 2) == round(independencia, 2)) {
+  cat("A y B son independientes.\n")
+} else {
+  cat("A y B son dependientes.\n")
+}
+
+P_A_given_B <- P_A_and_B / P_B
+cat("P(A | B):", round(P_A_given_B, 2), "\n")
+
+P_B_given_A <- (P_A_given_B * P_B) / ((P_A_given_B * P_B) + ((1 - P_A_given_B) * (1 - P_B)))
+cat("P(B | A) usando Bayes:", round(P_B_given_A, 2), "\n")
+
+```
+
+4.  **Evento Compuesto (E5)**: Seleccionar una persona al azar del estudio que tenga un gasto "Alto" y tenga un promedio ponderado "bueno" o "excelente".
+
+**#definición**
+
+**E5**: C ∩ D
+
+Donde
+
+C: Seleccionar un gasto al azar del estudio que cuyo valor monetario sea "Alto".\
+D: Seleccionar una persona al azar del estudio cuyo promedio ponderado se clasifique como "Bueno" o "Excelente".
+
+```{r}
+df_filtrado <- na.omit(df)
+
+P_C <- length(which(df_filtrado$GastoCafe == "Alto")) / length(df_filtrado$GastoCafe)
+
+P_D <- length(which(df_filtrado$Clasificacion %in% c("Bueno", "Excelente"))) / length(df_filtrado$Clasificacion)
+
+
+P_C_and_D <- length(which(df_filtrado$GastoCafe == "Alto" & df_filtrado$Clasificacion %in% c("Bueno", "Excelente"))) / length(df_filtrado$Clasificacion)
+
+independencia <- P_C * P_D
+
+cat("P(C):", round(P_C, 2), "\n")
+cat("P(D):", round(P_D, 2), "\n")
+cat("P(C ∩ D):", round(P_C_and_D, 2), "\n")
+cat("P(C) * P(D):", round(independencia, 2), "\n")
+
+if (round(P_C_and_D, 2) == round(independencia, 2)) {
+  cat("C y D son independientes.\n")
+} else {
+  cat("C y D son dependientes.\n")
+}
+
+P_C_given_D <- P_C_and_D / P_D
+cat("P(C | D):", round(P_C_given_D, 2), "\n")
+
+P_D_given_C <- (P_C_given_D * P_D) / ((P_C_given_D * P_D) + ((1 - P_C_given_D) * (1 - P_D)))
+cat("P(D | C) usando Bayes:", round(P_D_given_C, 2), "\n")
+
+```
+
+### Calcular evento compuesto del Evento 4 y el Evento 5:
+
+```{r}
+df_filtrado <- na.omit(df)
+
+df_filtrado$Clasificacion <- cut(df_filtrado$Promedio_ponderado_2024_1,
+                                  breaks = c(0, 10, 13, 16, 20),
+                                  labels = c("Malo", "Regular", "Bueno", "Excelente"),
+                                  right = FALSE)
+
+P_A <- length(which(df_filtrado$Tazas_por_dia >= 4 & df_filtrado$Tazas_por_dia <= 6)) / length(df_filtrado$Tazas_por_dia)
+
+P_B <- length(which(df_filtrado$Rendimiento_con_cafe == "Excelente")) / length(df_filtrado$Rendimiento_con_cafe)
+
+P_C <- length(which(df_filtrado$Tazas_por_dia > 3)) / length(df_filtrado$Tazas_por_dia)
+
+P_D <- length(which(df_filtrado$Clasificacion %in% c("Bueno", "Excelente"))) / length(df_filtrado$Clasificacion)
+
+P_A_and_B <- length(which(df_filtrado$Tazas_por_dia >= 4 & df_filtrado$Tazas_por_dia <= 6 & df_filtrado$Rendimiento_con_cafe == "Excelente")) / length(df_filtrado$Rendimiento_con_cafe)
+
+P_C_and_D <- length(which(df_filtrado$Tazas_por_dia > 3 & df_filtrado$Clasificacion %in% c("Bueno", "Excelente"))) / length(df_filtrado$Clasificacion)
+
+P_AB_CD <- length(which(df_filtrado$Tazas_por_dia >= 4 & df_filtrado$Tazas_por_dia <= 6 & 
+                        df_filtrado$Rendimiento_con_cafe == "Excelente" & 
+                        df_filtrado$Tazas_por_dia > 3 & 
+                        df_filtrado$Clasificacion %in% c("Bueno", "Excelente"))) / length(df_filtrado$Rendimiento_con_cafe)
+
+independencia <- P_A_and_B * P_C_and_D
+
+cat("P(A):", round(P_A, 2), "\n")
+cat("P(B):", round(P_B, 2), "\n")
+cat("P(C):", round(P_C, 2), "\n")
+cat("P(D):", round(P_D, 2), "\n")
+cat("P(A ∩ B):", round(P_A_and_B, 2), "\n")
+cat("P(C ∩ D):", round(P_C_and_D, 2), "\n")
+cat("P((A ∩ B) ∩ (C ∩ D)):", round(P_AB_CD, 2), "\n")
+cat("P(A ∩ B) * P(C ∩ D):", round(independencia, 2), "\n")
+
+if (round(P_AB_CD, 2) == round(independencia, 2)) {
+  cat("Los eventos (A ∩ B) y (C ∩ D) son independientes.\n")
+} else {
+  cat("Los eventos (A ∩ B) y (C ∩ D) son dependientes.\n")
+}
+
+P_AB_given_CD <- P_AB_CD / P_C_and_D
+cat("P((A ∩ B) | (C ∩ D)):", round(P_AB_given_CD, 2), "\n")
+
+P_CD_given_AB <- (P_AB_given_CD * P_C_and_D) / ((P_AB_given_CD * P_C_and_D) + ((1 - P_AB_given_CD) * (1 - P_C_and_D)))
+cat("P((C ∩ D) | (A ∩ B)) usando Bayes:", round(P_CD_given_AB, 2), "\n")
+
+
+```
+
+Conclusión en el contexto del caso:\
+
+#### Probabilidades Individuales
+
+-   **P(A) = 0.12**: Esto indica que el 12% de los participantes consume entre 4 y 6 tazas de café al día. Este nivel de consumo es relevante para entender las posibles implicaciones del café en el rendimiento académico.
+
+-   **P(B) = 0.15**: Solo el 15% de los participantes considera que su rendimiento es "Regular". Este porcentaje sugiere que una gran mayoría percibe su rendimiento de manera diferente, posiblemente indicando una alta autoestima académica o una diferencia en la percepción del rendimiento.
+
+-   **P(C) = 0.13**: Un 13% de los participantes tiene un gasto monetario clasificado como "Alto". Esto podría indicar que el consumo de café es parte de un estilo de vida más costoso en términos de gasto personal, lo que podría tener implicaciones en su rendimiento académico.
+
+-   **P(D) = 0.88**: Un 88% de los participantes se clasifica como "Bueno" o "Excelente" en su promedio ponderado. Este alto porcentaje sugiere que la mayoría de los estudiantes se consideran con un rendimiento académico superior.
+
+#### Intersecciones
+
+-   **P(A ∩ B) = 0.03**: La probabilidad de que una persona consuma entre 4 y 6 tazas de café y califique su rendimiento como "Regular" es de solo 3%. Esto sugiere que el consumo moderado de café puede no correlacionarse con una autoevaluación baja del rendimiento académico.
+
+-   **P(C ∩ D) = 0.12**: Un 12% de los participantes tienen un gasto "Alto" y se clasifican como "Bueno" o "Excelente". Esto podría sugerir que los estudiantes que invierten más en su estilo de vida tienden a tener un mejor rendimiento académico.
+
+-   **P((A ∩ B) ∩ (C ∩ D)) = 0.02**: Solo el 2% de los participantes cumple con ambas condiciones: consumir entre 4 y 6 tazas de café, calificar su rendimiento como "Regular", y tener un gasto "Alto" mientras se clasifican como "Bueno" o "Excelente". Este resultado resalta la escasez de coincidencias entre el consumo moderado de café, una percepción de rendimiento baja y un alto gasto.
+
+#### Dependencia e Independencia
+
+-   **Independencia**: Al comparar P(A∩B)P(A ∩ B)P(A∩B) con P(A∩B)∗P(C∩D)P(A ∩ B) \* P(C ∩ D)P(A∩B)∗P(C∩D), se determina que los eventos (A∩B)(A ∩ B)(A∩B) y (C∩D)(C ∩ D)(C∩D) son dependientes. Esto significa que el consumo de café y la percepción de rendimiento están interrelacionados con el gasto y la clasificación académica. La baja probabilidad de intersección indica que los eventos no son independientes, lo que podría sugerir que un alto consumo de café podría influir en la percepción del rendimiento y, a su vez, en el gasto.
+
+#### Probabilidades Condicionales
+
+-   **P((A ∩ B) \| (C ∩ D)) = 0.19**: Esto significa que si se considera a los estudiantes que tienen un gasto "Alto" y se clasifican como "Bueno" o "Excelente", hay un 19% de probabilidad de que también consuman entre 4 y 6 tazas de café y califiquen su rendimiento como "Regular". Esto refuerza la idea de que el gasto y la clasificación académica están relacionados, aunque el consumo de café moderado no parece influir en una autoevaluación negativa del rendimiento.
+
+-   **P((C ∩ D) \| (A ∩ B)) = 0.03**: Este valor indica que entre aquellos que consumen entre 4 y 6 tazas de café y se clasifican como "Regular", solo un 3% también tiene un gasto "Alto" y un rendimiento académico "Bueno" o "Excelente". Este resultado resalta que el consumo de café y la autoevaluación del rendimiento no conducen a un alto gasto y a un rendimiento académico superior.
+
+### Conclusiones
+
+Los resultados sugieren que existe una compleja interrelación entre el consumo de café, la percepción del rendimiento académico y el gasto monetario. A pesar de que el consumo moderado de café está presente en un porcentaje significativo de los participantes, este no se asocia directamente con una percepción negativa de su rendimiento académico.
+
+Además, la alta proporción de estudiantes que se consideran con un rendimiento "Bueno" o "Excelente" contrasta con la baja intersección de consumo de café y rendimiento "Regular", lo que indica que los estudiantes tienden a tener una visión positiva de su rendimiento a pesar de las variaciones en el consumo de café y el gasto. Esto plantea interrogantes sobre cómo los estudiantes perciben su rendimiento y si factores externos, como el gasto, podrían influir en su autoevaluación.
+
+Finalmente, se concluye que la relación entre estos factores es dependiente y sugiere que se requieren estudios adicionales para profundizar en la naturaleza de estas interacciones y sus implicaciones para el rendimiento académico y el bienestar de los estudiantes.
