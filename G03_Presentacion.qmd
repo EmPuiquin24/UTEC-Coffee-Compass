@@ -5,7 +5,7 @@ author:
   - Rodrigo Andrés Tassara Acosta
   - Fabricio Alberto Olagibel Romero
   - Isaac Eduardo Trinidad Leiva
-  - Hector Emilio Huaman Puiquin (Líder)
+  - Hector Emilio Huaman Puiquin (Lider)
 toc: true
 toc-title: "Indice"
 
@@ -46,7 +46,7 @@ invisible(conflict_prefer("summarize", "dplyr", quiet = TRUE))
 ```
 
 ```{r}
-df <- read_csv("LimpioCafe.csv")
+df <- read_csv("Limpio.csv")
 df
 ```
 
@@ -157,7 +157,7 @@ Promedio: {Malo, Regular, Bueno, Excelente}
 
 ```{r}
 df$Clasificacion <- cut(df$Promedio_ponderado_2024_1,
-                        breaks = c(0, 10, 13, 16, 20),
+                        breaks = c(0, 10, 13, 16, 21),
                         labels = c("Malo", "Regular", "Bueno", "Excelente"),
                         right = FALSE)  
 
@@ -182,14 +182,14 @@ Seleccionar un promedio al azar del estudio "Análisis del consumo de café en l
 
 ### Probabilidades:
 
-**P(Malo): 19/1301\
-P(Regular): 134/1301\
-P(Bueno): 783/1301\
-P(Excelente): 365/1301**
+**P(Malo): 19/1305\
+P(Regular): 134/1305\
+P(Bueno): 783/1305\
+P(Excelente): 369/1305**
 
 ### Comprobación:
 
-**P(Malo) + P(Regular) + P(Bueno) + P(Excelente) = 19/1301 + 134/1301 + 783/1301 + 365/1301 = 1301/1301 = 1**
+**P(Malo) + P(Regular) + P(Bueno) + P(Excelente) = 19/1305 + 134/1305 + 783/1305 + 369/1305 = 1305/1305 = 1**
 
 ## Variable 4: Gasto_semanal_cafe: X ∈ 0\<=X\<=200 -\> numérica discreta
 
@@ -198,7 +198,7 @@ Promedio: {bajo, medio, alto, muy_alto}
 
 ```{r}
 df$GastoCafe <- cut(df$Gasto_semanal_cafe,
-                        breaks = c(0, 10, 40, 80, 200),
+                        breaks = c(0, 10, 40, 80, 201),
                         labels = c("Bajo", "Medio", "Alto", "Muy_Alto"),
                         right = FALSE)  
 
@@ -224,15 +224,15 @@ Seleccionar un gasto en café al azar del estudio "Análisis del consumo de caf�
 
 ### Probabilidades:
 
-**P(Bajo): 483/1410\
-P(Medio): 731/1410**
+**P(Bajo): 483/1415\
+P(Medio): 731/1415**
 
-**P(Alto): 168/1410\
-P(Muy_Alto): 28/1410**
+**P(Alto): 168/1415\
+P(Muy_Alto): 33/1415**
 
 ### Comprobación:
 
-**P(Bajo) + P(Medio) + P(Alto) + P(Muy_Alto) = 483/1410 + 731/1410 + 168/1410 + 28/1410 = 1410/1410 = 1**
+**P(Bajo) + P(Medio) + P(Alto) + P(Muy_Alto) = 483/1415 + 731/1415 + 168/1415 + 33/1415 = 1415/1415 = 1**
 
 ## Eventos simples y compuestos
 
@@ -258,7 +258,7 @@ P(Muy_Alto): 28/1410**
 
     ```{r}
     df_filtrado$Clasificacion <- cut(df_filtrado$Promedio_ponderado_2024_1,
-                                     breaks = c(0, 10, 13, 16, 20),
+                                     breaks = c(0, 10, 13, 16, 21),
                                      labels = c("Malo", "Regular", "Bueno", "Excelente"),
                                      right = FALSE)
 
@@ -307,7 +307,7 @@ La relación entre el consumo de 2 tazas de café al día y el rendimiento acad�
 
 ```{r}
 df_filtrado$Clasificacion <- cut(df_filtrado$Promedio_ponderado_2024_1,
-                                  breaks = c(0, 10, 13, 16, 20),
+                                  breaks = c(0, 10, 13, 16, 21),
                                   labels = c("Malo", "Regular", "Bueno", "Excelente"),
                                   right = FALSE)
 
@@ -339,7 +339,7 @@ cat("P(E3 | E1) usando Bayes:", round(P_E3_given_E1, 2), "\n")
 
 Conclusión en el contexto del caso:
 
-La independencia entre el consumo de 2 tazas de café al día y la clasificación del promedio ponderado como "Excelente" indica que **E1 y E3 son independientes**. Esto sugiere que el rendimiento académico real de los estudiantes, medido a través de su promedio ponderado, no se ve afectado de manera significativa por la cantidad de café consumido. Este hallazgo resalta la diferencia crítica entre el rendimiento académico percibido (E2) y el rendimiento académico real (E3). Mientras que el consumo de café puede influir en la percepción de los estudiantes sobre su rendimiento, no se traduce necesariamente en una mejora tangible en sus calificaciones. Este aspecto subraya la importancia de evaluar el rendimiento académico a través de métricas objetivas y no basarse únicamente en las percepciones individuales de los estudiantes, que pueden ser influenciadas por factores externos, como el consumo de café. Podríamos hasta decir que el consumo de café (en el caso de la probabilidad de E2) tiende a hacer que los estudiantes se sobrevolaren y piensen que les esta yendo mejor de lo que de verdad les va.
+La independencia entre el consumo de 2 tazas de café al día y la clasificación del promedio ponderado como "Excelente" indica que **E1 y E3 son independientes**. Esto sugiere que el rendimiento académico real de los estudiantes, medido a través de su promedio ponderado, no se ve afectado de manera significativa por la cantidad de café consumido. Este hallazgo resalta la diferencia crítica entre el rendimiento académico percibido (E2) y el rendimiento académico real (E3). Mientras que el consumo de café puede influir en la percepción de los estudiantes sobre su rendimiento, no se traduce necesariamente en una mejora tangible en sus calificaciones. Este aspecto subraya la importancia de evaluar el rendimiento académico a través de métricas objetivas y no basarse únicamente en las percepciones individuales de los estudiantes, que pueden ser influenciadas por factores externos, como el consumo de café. Podríamos hasta decir que el consumo de café (en el caso de la probabilidad de E2 tiende a hacer que los estudiantes se sobrevolaren y piensen que les esta yendo mejor de lo que de verdad les va.
 
 ## Evento Compuestos
 
@@ -430,7 +430,7 @@ cat("P(D | C) usando Bayes:", round(P_D_given_C, 2), "\n")
 df_filtrado <- na.omit(df)
 
 df_filtrado$Clasificacion <- cut(df_filtrado$Promedio_ponderado_2024_1,
-                                  breaks = c(0, 10, 13, 16, 20),
+                                  breaks = c(0, 10, 13, 16, 21),
                                   labels = c("Malo", "Regular", "Bueno", "Excelente"),
                                   right = FALSE)
 
@@ -485,7 +485,7 @@ Conclusión en el contexto del caso:\
 
 -   **P(B) = 0.15**: Solo el 15% de los participantes considera que su rendimiento es "Regular". Este porcentaje sugiere que una gran mayoría percibe su rendimiento de manera diferente, posiblemente indicando una alta autoestima académica o una diferencia en la percepción del rendimiento.
 
--   **P(C) = 0.13**: Un 13% de los participantes tiene un gasto monetario clasificado como "Alto". Esto podría indicar que el consumo de café es parte de un estilo de vida más costoso en términos de gasto personal, lo que podría tener implicaciones en su rendimiento académico.
+-   **P(C) = 0.14**: Un 14% de los participantes tiene un gasto monetario clasificado como "Alto". Esto podría indicar que el consumo de café es parte de un estilo de vida más costoso en términos de gasto personal, lo que podría tener implicaciones en su rendimiento académico.
 
 -   **P(D) = 0.88**: Un 88% de los participantes se clasifica como "Bueno" o "Excelente" en su promedio ponderado. Este alto porcentaje sugiere que la mayoría de los estudiantes se consideran con un rendimiento académico superior.
 
