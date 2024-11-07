@@ -5,7 +5,7 @@ author:
   - Rodrigo Andrés Tassara Acosta
   - Fabricio Alberto Olagibel Romero
   - Isaac Eduardo Trinidad Leiva
-  - Hector Emilio Huaman Puiquin (Lider)
+  - Hector Emilio Huaman Puiquin (Líder)
 toc: true
 toc-title: "Indice"
 
@@ -111,7 +111,7 @@ P(7): 9/1373**
 
 ### Comprobación:
 
-**P(1) + P(2) + P(3) + P(4) + P(5) + P(6) + P(7) + P(8) + P(9) + P(10) = 487/1373 + 462/1373 + 231/1373 + 103/1373 + 43/1373 + 24/1373 + 9/1373 + 5/1373 + 4/1373 + 5/1373 = 1373**
+**P(1) + P(2) + P(3) + P(4) + P(5) + P(6) + P(7) + P(8) + P(9) + P(10) = 487/1373 + 462/1373 + 231/1373 + 103/1373 + 43/1373 + 24/1373 + 9/1373 + 5/1373 + 4/1373 + 5/1373 = 1373/1373 = 1**
 
 ## Variable 2: Rendimiento_con_café: {Puede Mejorar, Regular, Bueno, Excelente} -\> Nominal Ordinal
 
@@ -148,7 +148,7 @@ Seleccionar una persona al azar del estudio "Análisis del consumo de café en l
 
 ### Comprobación:
 
-**P(Puede Mejorar) + P(Regular) + P(Bueno) + P(Excelente)** = **106/1422 + 317/1422 + 794/1422** + **205/1422 = 1422**
+**P(Puede Mejorar) + P(Regular) + P(Bueno) + P(Excelente)** = **106/1422 + 317/1422 + 794/1422** + **205/1422 = 1422/1422 = 1**
 
 ## Variable 3: Promedio_ponderado: X ∈ 0\<=X\<=20 -\> numérica discreta
 
@@ -189,7 +189,7 @@ P(Excelente): 365/1301**
 
 ### Comprobación:
 
-**P(Malo) + P(Regular) + P(Bueno) + P(Excelente) = 19/1301 + 134/1301 + 783/1301 + 365/1301 = 1301**
+**P(Malo) + P(Regular) + P(Bueno) + P(Excelente) = 19/1301 + 134/1301 + 783/1301 + 365/1301 = 1301/1301 = 1**
 
 ## Variable 4: Gasto_semanal_cafe: X ∈ 0\<=X\<=200 -\> numérica discreta
 
@@ -232,7 +232,7 @@ P(Muy_Alto): 28/1410**
 
 ### Comprobación:
 
-**P(Bajo) + P(Medio) + P(Alto) + P(Muy_Alto) = 483/1410 + 731/1410 + 168/1410 + 28/1410 = 1410**
+**P(Bajo) + P(Medio) + P(Alto) + P(Muy_Alto) = 483/1410 + 731/1410 + 168/1410 + 28/1410 = 1410/1410 = 1**
 
 ## Eventos simples y compuestos
 
@@ -339,7 +339,7 @@ cat("P(E3 | E1) usando Bayes:", round(P_E3_given_E1, 2), "\n")
 
 Conclusión en el contexto del caso:
 
-La independencia entre el consumo de 2 tazas de café al día y la clasificación del promedio ponderado como "Excelente" indica que **E1 y E3 son independientes**. Esto sugiere que el rendimiento académico real de los estudiantes, medido a través de su promedio ponderado, no se ve afectado de manera significativa por la cantidad de café consumido. Este hallazgo resalta la diferencia crítica entre el rendimiento académico percibido (E2) y el rendimiento académico real (E3). Mientras que el consumo de café puede influir en la percepción de los estudiantes sobre su rendimiento, no se traduce necesariamente en una mejora tangible en sus calificaciones. Este aspecto subraya la importancia de evaluar el rendimiento académico a través de métricas objetivas y no basarse únicamente en las percepciones individuales de los estudiantes, que pueden ser influenciadas por factores externos, como el consumo de café. Podríamos hasta decir que el consumo de café (en el caso de la probabilidad de E2 tiende a hacer que los estudiantes se sobrevolaren y piensen que les esta yendo mejor de lo que de verdad les va.
+La independencia entre el consumo de 2 tazas de café al día y la clasificación del promedio ponderado como "Excelente" indica que **E1 y E3 son independientes**. Esto sugiere que el rendimiento académico real de los estudiantes, medido a través de su promedio ponderado, no se ve afectado de manera significativa por la cantidad de café consumido. Este hallazgo resalta la diferencia crítica entre el rendimiento académico percibido (E2) y el rendimiento académico real (E3). Mientras que el consumo de café puede influir en la percepción de los estudiantes sobre su rendimiento, no se traduce necesariamente en una mejora tangible en sus calificaciones. Este aspecto subraya la importancia de evaluar el rendimiento académico a través de métricas objetivas y no basarse únicamente en las percepciones individuales de los estudiantes, que pueden ser influenciadas por factores externos, como el consumo de café. Podríamos hasta decir que el consumo de café (en el caso de la probabilidad de E2) tiende a hacer que los estudiantes se sobrevolaren y piensen que les esta yendo mejor de lo que de verdad les va.
 
 ## Evento Compuestos
 
